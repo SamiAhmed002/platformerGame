@@ -362,6 +362,8 @@
 "Assets/Scripts/DeathTrigger.cs"
 "Assets/Scripts/EnemyMovement.cs"
 "Assets/Scripts/PlayerMovement.cs"
+"Assets/Scripts/Portal.cs"
+"Assets/Scripts/PortalGun.cs"
 -langversion:9.0
 
 /deterministic

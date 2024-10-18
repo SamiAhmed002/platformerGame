@@ -1,10 +1,18 @@
 ﻿<Properties StartupConfiguration="{932AF285-962E-2F51-C2BB-77B5BD507DC5}|">
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Portal.cs">
+    <Files>
+      <File FileName="Assets/Scripts/PortalGun.cs" Line="41" Column="23" />
+      <File FileName="Assets/Scripts/Portal.cs" Line="34" Column="1" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="platformerGame" expanded="True">
-            <Node name="Assets" expanded="True" selected="True" />
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="Portal.cs" selected="True" />
+              </Node>
+            </Node>
           </Node>
         </State>
       </Pad>
