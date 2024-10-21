@@ -20,5 +20,6 @@
 *.pdb
 *.opendb
 *.VC.db
+.DS_Store
 
 
