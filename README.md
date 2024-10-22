@@ -19,6 +19,9 @@ Quantum Leap is a first-person platformer set in a spaceship environment. The ga
 **Controls**
 
 -WASD or arrow keys: move/strafe
+
 -Spacebar: jump
+
 -Shift: sprint
+
 -Right click: place portal
