@@ -5,7 +5,9 @@ Quantum Leap is a first-person platformer set in a spaceship environment. The ga
 **Download and Installation**
 
 -Clone the main branch (v0.3)
->git clone https://github.com/SamiAhmed002/platformerGame.git
+```bash
+git clone https://github.com/SamiAhmed002/platformerGame.git
+```
 
 -Open the project in Unity
 *Editor version 2023.1.20f1 recommended*
