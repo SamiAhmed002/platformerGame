@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class CRAZYEnemyMovement : MonoBehaviour
 {
     public float speed = 4f;            // Speed of the enemy movement
     public float moveDistance = 26f;    // Distance to move forward and backward
@@ -11,6 +11,7 @@ public class EnemyMovement : MonoBehaviour
     private Vector3 startPos;           // Initial position of the enemy
     private bool movingForward = true;  // To track movement direction
     private bool isChasing = false;     // Whether the enemy is currently chasing the player
+    public bool hasTeleported = false;  // Disables movement if enemy teleports
 
     void Start()
     {
@@ -33,27 +34,29 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (!hasTeleported) {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // Check if the player is within the detection range
-        if (distanceToPlayer <= detectionRange)
-        {
-            isChasing = true;
-        }
-        else
-        {
-            isChasing = false;
-        }
+            // Check if the player is within the detection range
+            if (distanceToPlayer <= detectionRange)
+            {
+                isChasing = true;
+            }
+            else
+            {
+                isChasing = false;
+            }
 
-        if (isChasing)
-        {
-            // Chase the player
-            ChasePlayer();
-        }
-        else
-        {
-            // Patrol between the two points
-            Patrol();
+            if (isChasing)
+            {
+                // Chase the player
+                ChasePlayer();
+            }
+            else
+            {
+                // Patrol between the two points
+                Patrol();
+            }
         }
     }
 
