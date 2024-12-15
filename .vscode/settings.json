@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "platformerGame.sln"
+    "dotnet.defaultSolution": "platformerGame-0.3-Final-prototype-.sln"
 }
