@@ -61,13 +61,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/Portal.cs" />
+    <Compile Include="Assets/Scripts/ResetRespawnTrigger.cs" />
     <Compile Include="Assets/Scripts/PortalGun.cs" />
     <Compile Include="Assets/Scripts/Victory.cs" />
+    <Compile Include="Assets/Scripts/PlatformManager.cs" />
     <Compile Include="Assets/Scripts/DeathTrigger.cs" />
     <Compile Include="Assets/Scripts/waypointPath.cs" />
+    <Compile Include="Assets/Scripts/SolidPlatformDeathTrigger.cs" />
     <Compile Include="Assets/Scripts/PlayerMovement.cs" />
     <Compile Include="Assets/Scripts/CRAZYEnemyMovement.cs" />
     <Compile Include="Assets/Scripts/Fanpropeller.cs" />
+    <Compile Include="Assets/Scripts/LookAtCamera.cs" />
+    <Compile Include="Assets/Scripts/DoorController.cs" />
+    <Compile Include="Assets/Scripts/TimedPlatformManager.cs" />
     <Compile Include="Assets/Scripts/ButtonDoorController.cs" />
     <Compile Include="Assets/Scripts/MovingPlatform.cs" />
   </ItemGroup>
