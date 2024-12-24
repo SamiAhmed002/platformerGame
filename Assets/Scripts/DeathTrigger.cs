@@ -13,7 +13,7 @@ public class DeathTrigger : MonoBehaviour
     {
         // Track spawn position to teleport player on collision
         initialPosition = player.transform.position;
-        Debug.Log(initialPosition);
+        //Debug.Log(initialPosition);
     }
 
     // Detect when the player collides with enemy

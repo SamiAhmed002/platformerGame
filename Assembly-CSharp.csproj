@@ -60,18 +60,24 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/2023.1.20f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Scripts/Grid3DDeathTrigger.cs" />
     <Compile Include="Assets/Scripts/Portal.cs" />
     <Compile Include="Assets/Scripts/ResetRespawnTrigger.cs" />
     <Compile Include="Assets/Scripts/PortalGun.cs" />
     <Compile Include="Assets/Scripts/Victory.cs" />
     <Compile Include="Assets/Scripts/PlatformManager.cs" />
     <Compile Include="Assets/Scripts/DeathTrigger.cs" />
+    <Compile Include="Assets/Scripts/ResetGridRespawnTrigger.cs" />
     <Compile Include="Assets/Scripts/waypointPath.cs" />
     <Compile Include="Assets/Scripts/SolidPlatformDeathTrigger.cs" />
     <Compile Include="Assets/Scripts/PlayerMovement.cs" />
     <Compile Include="Assets/Scripts/CRAZYEnemyMovement.cs" />
+    <Compile Include="Assets/Scripts/Grid3DLayout.cs" />
+    <Compile Include="Assets/Scripts/MovingPlatformForDisappearingPlatforms.cs" />
     <Compile Include="Assets/Scripts/Fanpropeller.cs" />
+    <Compile Include="Assets/Scripts/ConcentricPlatformManager.cs" />
     <Compile Include="Assets/Scripts/LookAtCamera.cs" />
+    <Compile Include="Assets/Scripts/TimedPlatformManagerForMovingPlatforms.cs" />
     <Compile Include="Assets/Scripts/DoorController.cs" />
     <Compile Include="Assets/Scripts/TimedPlatformManager.cs" />
     <Compile Include="Assets/Scripts/ButtonDoorController.cs" />

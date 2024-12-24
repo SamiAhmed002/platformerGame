@@ -13,7 +13,7 @@ public class PlatformManager : MonoBehaviour
 
     public Text countdownText;          // Reference to the Text UI element
 
-    private List<GameObject> allPlatforms = new List<GameObject>();
+    public List<GameObject> allPlatforms = new List<GameObject>();
 
 
 
