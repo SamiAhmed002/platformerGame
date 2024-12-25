@@ -26,11 +26,15 @@ private float rotationX = 0;                   // Tracks the vertical rotation a
 private CharacterController characterController; // Reference to the CharacterController component.
 
 private bool canMove = true;         // Flag to check if the player can move.
+public Vector3 spawnPosition;
 
 void Start()
 {
     // Initialize the CharacterController component and lock the cursor to the game window.
     characterController = GetComponent<CharacterController>();
+    characterController.enabled = false;
+    transform.position = SpawnLocation.spawnPosition;
+    characterController.enabled = true;
     Cursor.lockState = CursorLockMode.Locked;  // Lock the mouse cursor to the center of the screen.
     Cursor.visible = false;                   // Hide the cursor while playing.
 }
@@ -102,5 +106,17 @@ void Update()
     }
     
     lookSpeed = 2f * sensitivity.value * Time.timeScale;
+}
+
+public void SetSpawn(Vector3 checkpoint) {
+    spawnPosition = checkpoint;
+}
+
+public void Respawn() {
+    Debug.Log("hello");
+    characterController.enabled = false;
+    transform.position = spawnPosition;
+    Debug.Log("Spawn position set to " + spawnPosition);
+    characterController.enabled = true;
 }
 }

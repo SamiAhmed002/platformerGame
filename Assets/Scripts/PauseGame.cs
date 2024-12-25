@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PauseGame : MonoBehaviour
@@ -8,6 +9,7 @@ public class PauseGame : MonoBehaviour
     public bool isPaused = false;
     public GameObject pauseMenu;
     public GameObject settingsMenu;
+    public Slider sensitivitySlider;
 
     void Start() {
         // Ensure the game starts unpaused
@@ -21,6 +23,8 @@ public class PauseGame : MonoBehaviour
         // Ensure the pause menu is hidden at the start
         pauseMenu.SetActive(false);
         settingsMenu.SetActive(false);
+
+        sensitivitySlider.value = SettingsManager.sensitivityValue;
     }
 
     // Update is called once per frame
@@ -71,7 +75,7 @@ public class PauseGame : MonoBehaviour
 
     public void QuitToMenu() {
         Resume();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Main Menu");
     }
 
     public void BackButton() {

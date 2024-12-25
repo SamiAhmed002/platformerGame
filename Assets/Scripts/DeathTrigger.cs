@@ -21,9 +21,9 @@ public class DeathTrigger : MonoBehaviour {
         // Check if the colliding object is the player and not another object
         if (other.gameObject == player)
         {
-            // Teleport player back to spawn
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
+            Debug.Log("Collision detected");
+            PlayerMovement movementScript = other.GetComponent<PlayerMovement>();
+            movementScript.Respawn();
         }
     }
 }
