@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     public Camera playerCamera;
-    // Script for controlling player movement, running, crouching, and looking around.
+    public Slider sensitivity;
 
+    // Script for controlling player movement, running, crouching, and looking around.
     public float walkSpeed = 6f;          // Walking speed of the player.
     public float runSpeed = 12f;          // Running speed of the player.
     public float jumpPower = 7f;          // Force applied when jumping.
     public float gravity = 10f;           // Gravity affecting the player when not grounded.
-    public float lookSpeed = 2f;          // Sensitivity for looking around (mouse movement).
+    public float lookSpeed;               // Sensitivity for looking around (mouse movement).
     public float lookXLimit = 75f;        // Limit to the vertical looking angle.
     public float defaultHeight = 2f;      // Default height of the player (standing height).
     public float crouchHeight = 1f;       // Height of the player when crouched.
@@ -21,13 +23,19 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;  // Stores the player's movement direction.
     private float rotationX = 0;                   // Tracks the vertical rotation angle for looking up/down.
     private CharacterController characterController; // Reference to the CharacterController component.
-
     private bool canMove = true;         // Flag to check if the player can move.
+    public Vector3 spawnPosition;
 
     void Start()
     {
         // Initialize the CharacterController component and lock the cursor to the game window.
         characterController = GetComponent<CharacterController>();
+        characterController.enabled = false;
+
+        // Set the spawn position and enable the controller.
+        transform.position = SpawnLocation.spawnPosition;
+        characterController.enabled = true;
+
         Cursor.lockState = CursorLockMode.Locked;  // Lock the mouse cursor to the center of the screen.
         Cursor.visible = false;                   // Hide the cursor while playing.
     }
@@ -97,16 +105,28 @@ public class PlayerMovement : MonoBehaviour
             // Horizontal rotation (looking left and right).
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
+
+        // Adjust look speed dynamically based on sensitivity.
+        lookSpeed = 2f * sensitivity.value * Time.timeScale;
     }
+
     public void ApplyVerticalLift(float liftSpeed)
     {
         moveDirection.y = liftSpeed;
         Debug.Log("Lift applied: " + liftSpeed);
     }
 
+    public void SetSpawn(Vector3 checkpoint)
+    {
+        spawnPosition = checkpoint;
+    }
+
+    public void Respawn()
+    {
+        Debug.Log("Respawning to spawn position...");
+        characterController.enabled = false;
+        transform.position = spawnPosition;
+        Debug.Log("Spawn position set to " + spawnPosition);
+        characterController.enabled = true;
+    }
 }
-
-
-
-
-

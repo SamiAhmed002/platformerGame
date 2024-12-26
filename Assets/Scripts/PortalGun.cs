@@ -12,10 +12,12 @@ public class PortalGun : MonoBehaviour
     private GameObject portalA = null;  // Instance of Portal A
     private GameObject portalB = null;  // Instance of Portal B
 
+    public PauseGame pauseGame;
+
     void Update()
     {
         // Right-click to shoot a portal
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !pauseGame.isPaused)
         {
             ShootPortal();
         }
@@ -30,7 +32,7 @@ public class PortalGun : MonoBehaviour
         if (Physics.Raycast(ray, out hit, maxDistance))
         {
             Debug.Log("Hit: " + hit.collider.gameObject.name);
-            if (hit.collider.CompareTag("Portal") == false)
+            if (hit.collider.CompareTag("Portal") == false && hit.collider.CompareTag("Enemy") == false && hit.collider.CompareTag("Border") == false)
             {
                 // If both portals are active, destroy them before placing new ones
                 if (portalA != null && portalB != null)
