@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7692033049315069971
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.14999998
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.14999998
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.499
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.18499947
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.58100903
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6934618780778333351, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9f2645559b8b14773b709fbd9bd6e2ff, type: 2}
+    - target: {fileID: -5354038647077006500, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5bc2b5b52d33743e9824b2fcda25d1a7, type: 2}
+    - target: {fileID: 92934198388655297, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9f2645559b8b14773b709fbd9bd6e2ff, type: 2}
+    - target: {fileID: 919132149155446097, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: m_Name
+      value: Portal Gun1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456634459314407202, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9f2645559b8b14773b709fbd9bd6e2ff, type: 2}
+    - target: {fileID: 5027026669549789686, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9f2645559b8b14773b709fbd9bd6e2ff, type: 2}
+    - target: {fileID: 5587926786263007692, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9f2645559b8b14773b709fbd9bd6e2ff, type: 2}
+    - target: {fileID: 5758833779893915469, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8b2ce88a69f3e45318656a7f718d7656, type: 2}
+    - target: {fileID: 8064879890669024557, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8b2ce88a69f3e45318656a7f718d7656, type: 2}
+    - target: {fileID: 8723008695067795499, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0c879ddfb79cc4dfdb86a2bf6fcebf9b, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3309981853363504408}
+  m_SourcePrefab: {fileID: 100100000, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+--- !u!1 &7385620384985410882 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 33c411fe551b64da5aa34c5ccaad2f5e, type: 3}
+  m_PrefabInstance: {fileID: 7692033049315069971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3309981853363504408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385620384985410882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18d95a5cc05341e6a4e9b206e7ea2d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portalPrefabA: {fileID: 1954003555466498692, guid: ec7909ca2612d4054937e7f2147d28bd, type: 3}
+  portalPrefabB: {fileID: 3068296312477416880, guid: ff5491cabe92d4d20bc5ea397561ba8c, type: 3}
+  playerCamera: {fileID: 0}
+  maxDistance: 30
+  levitationDistance: 6
+  levitationSpeed: 14
+  levitationRange: 20
+  launchForce: 2000
