@@ -48,9 +48,32 @@ public class MainMenu : MonoBehaviour
         mainMenu.SetActive(true);
     }
 
-    public void LoadTutorial() {
-        SpawnLocation.spawnPosition = new Vector3(127,6,0);
-        SceneManager.LoadScene("SampleScene");
+    //public void LoadTutorial() {
+    //    SpawnLocation.spawnPosition = new Vector3(127,6,0);
+    //    SceneManager.LoadScene("SampleScene");
+    //}
+
+    public static class TutorialManager
+    {
+        public static bool hasPlayedCutScene = false;
+    }
+
+    public void LoadTutorial()
+    {
+        if (!TutorialManager.hasPlayedCutScene)
+        {
+            // Set the flag to indicate the cut-scene is being played
+            TutorialManager.hasPlayedCutScene = true;
+
+            // Load the cut-scene
+            SceneManager.LoadScene("IntroCutScene");
+        }
+        else
+        {
+            // Directly load the tutorial level
+            SpawnLocation.spawnPosition = new Vector3(127, 6, 0);
+            SceneManager.LoadScene("SampleScene"); // Replace "SampleScene" with your tutorial level scene name
+        }
     }
 
     public void LoadLevel1() {

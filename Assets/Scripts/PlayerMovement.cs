@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Set the spawn position and enable the controller.
         transform.position = SpawnLocation.spawnPosition;
+        //transform.position = new Vector3(0, 2, 0); //DEBUGGING
         characterController.enabled = true;
 
         Cursor.lockState = CursorLockMode.Locked;  // Lock the mouse cursor to the center of the screen.
