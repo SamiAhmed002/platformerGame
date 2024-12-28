@@ -8143,6 +8143,10 @@ PrefabInstance:
       propertyPath: shootingPoint
       value: 
       objectReference: {fileID: 1192758959}
+    - target: {fileID: 2013209058298141090, guid: d7ed93adba8774e0392bcdde25097178, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f2cbd9bccca604dd09769130303d5469, type: 2}
     - target: {fileID: 2502119603770079803, guid: d7ed93adba8774e0392bcdde25097178, type: 3}
       propertyPath: player
       value: 
@@ -8155,6 +8159,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -19.1
       objectReference: {fileID: 0}
+    - target: {fileID: 4156885634833651227, guid: d7ed93adba8774e0392bcdde25097178, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f2cbd9bccca604dd09769130303d5469, type: 2}
     - target: {fileID: 5658510823123577099, guid: d7ed93adba8774e0392bcdde25097178, type: 3}
       propertyPath: shootingPoint
       value: 
@@ -8175,6 +8183,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Non-Portal
       objectReference: {fileID: 0}
+    - target: {fileID: 8671889135271114185, guid: d7ed93adba8774e0392bcdde25097178, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f2cbd9bccca604dd09769130303d5469, type: 2}
     - target: {fileID: 9176044594807368472, guid: d7ed93adba8774e0392bcdde25097178, type: 3}
       propertyPath: m_Enabled
       value: 0
