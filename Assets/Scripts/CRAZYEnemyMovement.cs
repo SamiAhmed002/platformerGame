@@ -5,39 +5,52 @@ public class CRAZYEnemyMovement : MonoBehaviour
     public float speed = 4f;            // Speed of the enemy movement
     public float moveDistance = 26f;    // Distance to move forward and backward
     public float chaseSpeed = 6f;       // Speed when chasing the player
-    public float detectionRange = 5f;  // Range within which the enemy starts chasing the player
+    public float detectionRange = 5f;   // Range within which the enemy starts chasing the player
     public Transform player;            // Reference to the player
-
+    public Animator animator;           // Reference to the Animator component
+    public GameObject linkedSurface;    // Optional surface to check for contact
+    
     private Vector3 startPos;           // Initial position of the enemy
     private bool movingForward = true;  // To track movement direction
     private bool isChasing = false;     // Whether the enemy is currently chasing the player
     public bool hasTeleported = false;  // Disables movement if enemy teleports
+    private Rigidbody rb;              // Reference to the Rigidbody component
+    private bool isInContactWithSurface = false;
 
     void Start()
     {
-        // Automatically find the player GameObject by its tag
+        // Get references
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-
-        // Ensure the player was found
         if (playerObject != null)
         {
             player = playerObject.transform;
         }
         else
         {
-          Debug.LogError("Player not found! Make sure the player GameObject is tagged as 'Player'.");
+            Debug.LogError("Player not found! Make sure the player GameObject is tagged as 'Player'.");
         }
-        // Record the starting position of the enemy
+        
         startPos = transform.position;
-    }
 
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
         if (!hasTeleported) {
+            // Handle gravity based on surface contact if a surface is linked
+            if (linkedSurface != null && rb != null)
+            {
+                rb.useGravity = !isInContactWithSurface;
+            }
+
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            // Check if the player is within the detection range
             if (distanceToPlayer <= detectionRange)
             {
                 isChasing = true;
@@ -49,12 +62,12 @@ public class CRAZYEnemyMovement : MonoBehaviour
 
             if (isChasing)
             {
-                // Chase the player
+                animator.SetBool("isChasing", true);
                 ChasePlayer();
             }
             else
             {
-                // Patrol between the two points
+                animator.SetBool("isChasing", false);
                 Patrol();
             }
         }
@@ -76,6 +89,8 @@ public class CRAZYEnemyMovement : MonoBehaviour
             if (Vector3.Distance(transform.position, forwardPos) < 0.01f)
             {
                 movingForward = false; // Switch to moving backward
+                // Set rotation to show the enemy's back
+                transform.rotation = Quaternion.Euler(0, 270, 0);
             }
         }
         else
@@ -87,6 +102,8 @@ public class CRAZYEnemyMovement : MonoBehaviour
             if (Vector3.Distance(transform.position, backwardPos) < 0.01f)
             {
                 movingForward = true; // Switch to moving forward
+                // Reset rotation to face forward
+                transform.rotation = Quaternion.Euler(0, 90, 0);
             }
         }
     }
@@ -95,5 +112,23 @@ public class CRAZYEnemyMovement : MonoBehaviour
     {
         // Move towards the player with chase speed
         transform.position = Vector3.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (linkedSurface != null && collision.gameObject == linkedSurface)
+        {
+            isInContactWithSurface = true;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (linkedSurface != null && collision.gameObject == linkedSurface && !isChasing)
+        {
+            isInContactWithSurface = false;
+            hasTeleported = true;
+            rb.useGravity = true;
+        }
     }
 }

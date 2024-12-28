@@ -6,7 +6,9 @@ TagManager:
   tags:
   - Portal
   - Enemy
-  - Border
+  - Floating
+  - Death
+  - Non-Portal
   layers:
   - Default
   - TransparentFX

@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private float rotationX = 0;                   // Tracks the vertical rotation angle for looking up/down.
     private CharacterController characterController; // Reference to the CharacterController component.
     private bool canMove = true;         // Flag to check if the player can move.
-    public Vector3 spawnPosition;
+    private Vector3 spawnPosition;
 
     void Start()
     {
@@ -32,12 +32,15 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         characterController.enabled = false;
 
-        // Set the spawn position and enable the controller.
-        transform.position = SpawnLocation.spawnPosition;
+        // Store the initial position as spawn position
+        spawnPosition = transform.position;
+        
+        // Set the spawn position and enable the controller
+        transform.position = spawnPosition;
         characterController.enabled = true;
 
-        Cursor.lockState = CursorLockMode.Locked;  // Lock the mouse cursor to the center of the screen.
-        Cursor.visible = false;                   // Hide the cursor while playing.
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -119,14 +122,17 @@ public class PlayerMovement : MonoBehaviour
     public void SetSpawn(Vector3 checkpoint)
     {
         spawnPosition = checkpoint;
+        Debug.Log($"New spawn position set: {checkpoint}");
     }
 
     public void Respawn()
     {
-        Debug.Log("Respawning to spawn position...");
+        Debug.Log($"Respawning to spawn position: {spawnPosition}");
         characterController.enabled = false;
         transform.position = spawnPosition;
-        Debug.Log("Spawn position set to " + spawnPosition);
         characterController.enabled = true;
     }
 }
+
+
+

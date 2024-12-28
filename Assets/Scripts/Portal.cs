@@ -10,35 +10,47 @@ public class Portal : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collision occured");
-        // Check if the player entered the portal and if cooldown is not active
-        if (other.CompareTag("Player") && !isCooldownActive)
+        // Only teleport if:
+        // 1. Cooldown is not active
+        // 2. There is a linked portal
+        // 3. The linked portal exists in the scene
+        if (!isCooldownActive && linkedPortal != null && linkedPortal.activeInHierarchy)
         {
-            Debug.Log("Player entered the portal!");  // Log to check if portal triggers
-            StartCoroutine(TeleportWithCooldown(other));
-        }
-        // Check if the enemy entered the portal
-        else if (other.CompareTag("Enemy") && !isCooldownActive)
-        {
-            Debug.Log("Enemy entered the portal!");
-            StartCoroutine(TeleportEnemyWithCooldown(other));
+            if (other.CompareTag("Player"))
+            {
+                StartCoroutine(TeleportWithCooldown(other));
+            }
+            else if (other.CompareTag("Enemy"))
+            {
+                StartCoroutine(TeleportEnemyWithCooldown(other));
+            }
+            else if (other.CompareTag("Floating"))
+            {
+                StartCoroutine(TeleportFloatingObjectWithCooldown(other));
+            }
         }
     }
 
     IEnumerator TeleportEnemyWithCooldown(Collider enemy)
     {
-        Debug.Log("Teleporting enemy, starting cooldown...");  // Log teleport initiation
-        // Set cooldown active
+        Debug.Log("Teleporting enemy, starting cooldown...");
         isCooldownActive = true;
 
+        // Calculate the teleport position with a horizontal offset only
+        Vector3 horizontalOffset = new Vector3(
+            linkedPortal.transform.forward.x,
+            0, // Zero out the Y component
+            linkedPortal.transform.forward.z
+        ).normalized * 2f;
+
         // Move the enemy to the linked portal's position
-        enemy.transform.position = linkedPortal.transform.position + linkedPortal.transform.forward * 2f;
-        enemy.GetComponent<CRAZYEnemyMovement>().hasTeleported = true;
+        enemy.transform.position = linkedPortal.transform.position + horizontalOffset;
+        enemy.GetComponent<CRAZYEnemyMovement>().hasTeleported = false;
 
         Rigidbody rb = enemy.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.useGravity = true; // Disable gravity after teleport
+            rb.useGravity = false; // Disable gravity after teleport
         }
 
         Debug.Log("Enemy teleported to: " + enemy.transform.position);  // Log the enemy's new position
@@ -92,5 +104,37 @@ public class Portal : MonoBehaviour
         linkedPortal.GetComponent<Portal>().isCooldownActive = false;
 
         Debug.Log("Cooldown ended, portals are ready.");  // Log when cooldown ends
+    }
+
+    IEnumerator TeleportFloatingObjectWithCooldown(Collider floatingObject)
+    {
+        isCooldownActive = true;
+
+        // Get the Rigidbody if it exists
+        Rigidbody rb = floatingObject.GetComponent<Rigidbody>();
+        Vector3 currentVelocity = Vector3.zero;
+        if (rb != null)
+        {
+            currentVelocity = rb.velocity;
+            rb.isKinematic = true;
+        }
+
+        // Teleport the object
+        floatingObject.transform.position = linkedPortal.transform.position + linkedPortal.transform.forward * 2f;
+
+        // Restore the object's velocity in the new direction
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.velocity = linkedPortal.transform.forward * currentVelocity.magnitude;
+        }
+
+        // Set cooldown on both portals
+        linkedPortal.GetComponent<Portal>().isCooldownActive = true;
+
+        yield return new WaitForSeconds(teleportCooldown);
+
+        isCooldownActive = false;
+        linkedPortal.GetComponent<Portal>().isCooldownActive = false;
     }
 }
