@@ -9,10 +9,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 136226
-  packageName: Robot Sphere
-  packageVersion: 1.3
-  assetPath: Assets/RobotSphere/Assets/Scripts/Editor/RobotFreeAnimEditor.cs
-  uploadId: 350919
