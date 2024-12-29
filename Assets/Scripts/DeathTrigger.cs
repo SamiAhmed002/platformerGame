@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DeathTrigger : MonoBehaviour {
+public class DeathTrigger : MonoBehaviour
+{
 
     public GameObject player;
-    private Vector3 initialPosition; 
+    private Vector3 initialPosition;
 
     void Start()
     {
         // Track spawn position to teleport player on collision
         initialPosition = player.transform.position;
-        Debug.Log(initialPosition);
+        //Debug.Log(initialPosition);
     }
 
     // Detect when the player collides with enemy

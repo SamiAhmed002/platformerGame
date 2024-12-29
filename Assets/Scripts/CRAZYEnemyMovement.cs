@@ -38,7 +38,7 @@ public class CRAZYEnemyMovement : MonoBehaviour
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
             // Check if the player is within the detection range
-            if (distanceToPlayer <= detectionRange)
+            if (distanceToPlayer <= detectionRange && SettingsManager.gameMode == 2)
             {
                 isChasing = true;
             }

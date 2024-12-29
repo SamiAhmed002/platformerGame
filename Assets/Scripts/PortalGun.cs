@@ -14,12 +14,19 @@ public class PortalGun : MonoBehaviour
 
     public PauseGame pauseGame;
 
+    public Material material;
+    LaserBeam beam;
+
     void Update()
     {
         // Right-click to shoot a portal
         if (Input.GetMouseButtonDown(1) && !pauseGame.isPaused)
         {
             ShootPortal();
+        }
+        Destroy(GameObject.Find("Laser Beam"));
+        if (Input.GetKey(KeyCode.Q)) {
+            beam = new LaserBeam(gameObject.transform.position, gameObject.transform.right, material);
         }
     }
 
@@ -64,5 +71,10 @@ public class PortalGun : MonoBehaviour
                 }
             }
         }
+    }
+
+    void ShootLaser()
+    {
+       
     }
 }

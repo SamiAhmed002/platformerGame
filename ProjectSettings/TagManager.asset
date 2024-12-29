@@ -7,6 +7,9 @@ TagManager:
   - Portal
   - Enemy
   - Border
+  - Startpoint
+  - Midpoint
+  - Easypoint
   layers:
   - Default
   - TransparentFX

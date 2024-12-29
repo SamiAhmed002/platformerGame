@@ -10,14 +10,19 @@ public static class SpawnLocation {
 
 public static class SettingsManager {
     public static float sensitivityValue = 5f;
+    public static int gameMode = 0;
 }
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject playMenu;
+    public GameObject levelMenu;
     public GameObject settingsMenu;
     public Slider sensitivity;
+    public Toggle easyModeToggle;
+    public Toggle mediumModeToggle;
+    public Toggle hardModeToggle;
 
     void Start() {
         // Lock the cursor and make it invisible
@@ -27,9 +32,18 @@ public class MainMenu : MonoBehaviour
         // Ensure the pause menu is hidden at the start
         mainMenu.SetActive(true);
         playMenu.SetActive(false);
+        levelMenu.SetActive(false);
         settingsMenu.SetActive(false);
         sensitivity.value = SettingsManager.sensitivityValue;
         sensitivity.onValueChanged.AddListener(OnSensitivityChanged);
+        
+        UpdateToggles();
+
+        // Add listeners for toggles
+        easyModeToggle.onValueChanged.AddListener(OnEasyModeChanged);
+        mediumModeToggle.onValueChanged.AddListener(OnMediumModeChanged);        
+        hardModeToggle.onValueChanged.AddListener(OnHardModeChanged);
+
     }
 
     public void PlayButton() {
@@ -42,10 +56,20 @@ public class MainMenu : MonoBehaviour
         settingsMenu.SetActive(true);
     }
 
+    public void ContinueButton() {
+        playMenu.SetActive(false);
+        levelMenu.SetActive(true);
+    }
+
     public void BackButton() {
         settingsMenu.SetActive(false);
         playMenu.SetActive(false);  
         mainMenu.SetActive(true);
+    }
+
+    public void LevelBackButton() {
+        levelMenu.SetActive(false);
+        playMenu.SetActive(true);
     }
 
     public void LoadTutorial() {
@@ -61,5 +85,37 @@ public class MainMenu : MonoBehaviour
     public void OnSensitivityChanged(float value)
     {
         SettingsManager.sensitivityValue = value;
+    }
+
+
+    void UpdateToggles() {
+        easyModeToggle.isOn = (SettingsManager.gameMode == 0);
+        mediumModeToggle.isOn = (SettingsManager.gameMode == 1);
+        hardModeToggle.isOn = (SettingsManager.gameMode == 2);
+    }
+
+    void OnEasyModeChanged(bool isOn)
+    {
+        if (isOn) {
+            SettingsManager.gameMode = 0;
+            UpdateToggles();
+        }
+    }
+
+    void OnMediumModeChanged(bool isOn)
+    {
+        if (isOn) {
+            SettingsManager.gameMode = 1;
+            UpdateToggles();
+        }
+    }
+
+
+    void OnHardModeChanged(bool isOn)
+    {
+       if (isOn) {
+            SettingsManager.gameMode = 2;
+            UpdateToggles();
+        }
     }
 }
