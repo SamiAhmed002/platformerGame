@@ -5,23 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class DeathTrigger : MonoBehaviour {
 
-    public GameObject player;
-    private Vector3 initialPosition; 
+    private Vector3 initialPosition;
+    private GameObject player;
 
     void Start()
     {
-        // Track spawn position to teleport player on collision
-        initialPosition = player.transform.position;
-        Debug.Log(initialPosition);
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) {
+            initialPosition = player.transform.position;
+            Debug.Log(initialPosition);
+        }
     }
 
-    // Detect when the player collides with enemy
+    // Add both collision and trigger detection
+    private void OnCollisionEnter(Collision other)
+    {
+        // Check if the colliding object is the player
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the colliding object is the player and not another object
-        if (other.gameObject == player)
+        // Check if the colliding object is the player
+        if (other.CompareTag("Player"))
         {
-            // Teleport player back to spawn
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
         }

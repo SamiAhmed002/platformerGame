@@ -5,11 +5,17 @@ TagManager:
   serializedVersion: 2
   tags:
   - Portal
+  - Enemy
+  - Floating
+  - Death
+  - Non-Portal
+  - MovingPlatform
+  - DisappearingPlatform
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - InteractableRobot
   - Water
   - UI
   - 
