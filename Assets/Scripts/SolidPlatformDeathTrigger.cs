@@ -19,10 +19,8 @@ public class SolidPlatformDeathTrigger : MonoBehaviour
             platformManager.HandleRespawn();
 
             // Reload the scene
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
-
-            Debug.Log("Solid/Unsolid Level Death Triggered. Scene Reloaded.");
+            PlayerMovement movementScript = other.GetComponent<PlayerMovement>();
+            movementScript.Respawn();
         }
     }
 }

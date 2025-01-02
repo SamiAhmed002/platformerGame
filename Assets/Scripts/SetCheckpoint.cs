@@ -8,6 +8,7 @@ public class SetCheckpoint : MonoBehaviour
     public GameObject player;
     public GameObject plane1;
     public GameObject plane2;
+    public int id;
 
     void Start() {
         plane1.GetComponent<Renderer>().material.color = Color.red;
@@ -30,6 +31,10 @@ public class SetCheckpoint : MonoBehaviour
             movementScript.SetSpawn(transform.position);
             plane1.GetComponent<Renderer>().material.color = Color.green;
             plane2.GetComponent<Renderer>().material.color = Color.green;
+
+            if (gameObject.tag == "Startpoint") {
+                SettingsManager.progress = this.id;
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ public class PauseGame : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject settingsMenu;
     public Slider sensitivitySlider;
+    public GameObject inventory;
 
     void Start() {
         // Ensure the game starts unpaused
@@ -23,6 +24,7 @@ public class PauseGame : MonoBehaviour
         // Ensure the pause menu is hidden at the start
         pauseMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        inventory.SetActive(false);
 
         sensitivitySlider.value = SettingsManager.sensitivityValue;
     }
@@ -38,6 +40,9 @@ public class PauseGame : MonoBehaviour
                 Resume();
             }
         }
+        else if (Input.GetKey(KeyCode.E)) {
+            OpenInventory();
+        }
         
     }
 
@@ -52,6 +57,7 @@ public class PauseGame : MonoBehaviour
 
     void Pause() {
         Time.timeScale = 0;
+        inventory.SetActive(false);
         isPaused = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -81,5 +87,12 @@ public class PauseGame : MonoBehaviour
     public void BackButton() {
         settingsMenu.SetActive(false);
         pauseMenu.SetActive(true);
+    }
+
+    public void OpenInventory() {
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        inventory.SetActive(true);
     }
 }

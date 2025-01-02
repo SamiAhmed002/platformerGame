@@ -596,6 +596,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 159067750}
+  - component: {fileID: 159067751}
   m_Layer: 5
   m_Name: Level Components
   m_TagString: Untagged
@@ -627,6 +628,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &159067751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159067749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6bd12537d95f949a11658acfd90049, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level1: {fileID: 1562170380}
+  level2: {fileID: 1706409757}
+  lockedIcon: {fileID: 2800000, guid: 68850e2489bad17428cb0f26996a108c, type: 3}
+  unlockedIcon1: {fileID: 2800000, guid: ea86cc393ca51b74c94eddfd3f337134, type: 3}
+  unlockedIcon2: {fileID: 2800000, guid: ea86cc393ca51b74c94eddfd3f337134, type: 3}
+  level1Image: {fileID: 945148052}
+  level2Image: {fileID: 1481887174}
 --- !u!1 &165726860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,6 +1227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 1504012290}
+  id: 0
 --- !u!114 &378813510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,6 +1603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 1430065153}
+  id: 0
 --- !u!1 &439165956
 GameObject:
   m_ObjectHideFlags: 0
@@ -2481,7 +2503,7 @@ GameObject:
   - component: {fileID: 538851112}
   - component: {fileID: 538851111}
   m_Layer: 5
-  m_Name: Picture
+  m_Name: Tutorial Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3199,6 +3221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 364401235}
+  id: 0
 --- !u!114 &893118789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3724,7 +3747,7 @@ GameObject:
   - component: {fileID: 945148053}
   - component: {fileID: 945148052}
   m_Layer: 5
-  m_Name: Picture
+  m_Name: Level 1 Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3769,7 +3792,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: ea86cc393ca51b74c94eddfd3f337134, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -4767,6 +4790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 0}
+  id: 0
 --- !u!114 &1363312177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5204,7 +5228,7 @@ GameObject:
   - component: {fileID: 1481887175}
   - component: {fileID: 1481887174}
   m_Layer: 5
-  m_Name: Picture
+  m_Name: Level 2 Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5249,7 +5273,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: ea86cc393ca51b74c94eddfd3f337134, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -5451,7 +5475,7 @@ GameObject:
   - component: {fileID: 1562170380}
   - component: {fileID: 1562170383}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Level 1 Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5502,7 +5526,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5584,6 +5608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 468127618}
+  id: 1
 --- !u!1 &1563517318
 GameObject:
   m_ObjectHideFlags: 0
@@ -5637,6 +5662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 504880769}
+  id: 0
 --- !u!114 &1563517321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6147,7 +6173,7 @@ GameObject:
   - component: {fileID: 1644850484}
   - component: {fileID: 1644850487}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Tutorial Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6280,6 +6306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 1959649443}
+  id: 0
 --- !u!1 &1667802036
 GameObject:
   m_ObjectHideFlags: 0
@@ -6454,8 +6481,9 @@ GameObject:
   - component: {fileID: 1706409759}
   - component: {fileID: 1706409758}
   - component: {fileID: 1706409757}
+  - component: {fileID: 1706409760}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Level 2 Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6506,7 +6534,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -6563,6 +6591,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1706409755}
   m_CullTransparentMesh: 1
+--- !u!114 &1706409760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706409755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482137a4b29fae143842aed567994b00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonText: {fileID: 0}
+  id: 0
 --- !u!1 &1706607923
 GameObject:
   m_ObjectHideFlags: 0
@@ -6788,6 +6830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 1644326841}
+  id: 0
 --- !u!114 &1741898353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7279,6 +7322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 489023621}
+  id: 0
 --- !u!114 &1906482272
 MonoBehaviour:
   m_ObjectHideFlags: 0

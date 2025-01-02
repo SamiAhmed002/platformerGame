@@ -11,6 +11,7 @@ public static class SpawnLocation {
 public static class SettingsManager {
     public static float sensitivityValue = 5f;
     public static int gameMode = 0;
+    public static int progress = 0;
 }
 
 public class MainMenu : MonoBehaviour

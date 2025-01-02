@@ -17,14 +17,14 @@ public class PlayerMovement : MonoBehaviour
     public float lookSpeed;               // Sensitivity for looking around (mouse movement).
     public float lookXLimit = 75f;        // Limit to the vertical looking angle.
     public float defaultHeight = 2f;      // Default height of the player (standing height).
-    public float crouchHeight = 1f;       // Height of the player when crouched.
-    public float crouchSpeed = 3f;        // Movement speed when crouching.
 
     private Vector3 moveDirection = Vector3.zero;  // Stores the player's movement direction.
     private float rotationX = 0;                   // Tracks the vertical rotation angle for looking up/down.
     private CharacterController characterController; // Reference to the CharacterController component.
     private bool canMove = true;         // Flag to check if the player can move.
     public Vector3 spawnPosition;
+
+    public bool slowPowerActive = false;
 
     void Start()
     {
@@ -77,19 +77,6 @@ public class PlayerMovement : MonoBehaviour
             moveDirection.y -= gravity * Time.deltaTime;
         }
 
-        // Crouching logic: If the player presses the 'R' key, crouch by adjusting height and reducing movement speed.
-        if (Input.GetKey(KeyCode.R) && canMove)
-        {
-            characterController.height = crouchHeight;  // Set height to crouch height.
-            walkSpeed = crouchSpeed;                    // Adjust walking speed to crouch speed.
-            runSpeed = crouchSpeed;                     // Adjust running speed to crouch speed.
-        }
-        else
-        {
-            // Return to normal height and speeds when not crouching.
-            characterController.height = defaultHeight;
-        }
-
         // Move the character using the calculated movement direction.
         characterController.Move(moveDirection * Time.deltaTime);
 
@@ -108,7 +95,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Adjust look speed dynamically based on sensitivity.
-        lookSpeed = 2f * sensitivity.value * Time.timeScale;
+        lookSpeed = 2f * sensitivity.value * Time.timeScale / (slowPowerActive ? 0.5f : 1);
+
+        gravity = 10f / (slowPowerActive ? 0.5f : 1);
+        jumpPower = 7f / (slowPowerActive ? 0.5f : 1);
+
     }
 
     public void ApplyVerticalLift(float liftSpeed)
@@ -130,4 +121,5 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Spawn position set to " + spawnPosition);
         characterController.enabled = true;
     }
+
 }
