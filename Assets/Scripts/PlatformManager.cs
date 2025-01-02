@@ -123,7 +123,7 @@ public class PlatformManager : MonoBehaviour
         if (countdownText != null)
         {
             if (remaining > 0)
-                countdownText.text = $"Navigate your way towards the exit, but beware—some platforms are solid, while others will let you fall. Plan your steps wisely! The platforms will rearrange after {remaining} attempts.";
+                countdownText.text = $"The platforms will rearrange after {remaining} attempts.";
             else
                 countdownText.text = "Platforms reset, you have 5 more chances";
         }

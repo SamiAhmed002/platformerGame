@@ -10,7 +10,7 @@ public class TimedPlatformManager : MonoBehaviour
     public int blinkCount = 3;              // Number of blinks before disappearing
     public float disappearDuration = 3f;   // How long a platform stays disappeared
     public Color blinkColor = Color.red;    // Color to blink (e.g., red)
-    public Color defaultColor = new Color(0.54f, 0.48f, 0.48f, 1f); // Original platform color (897C7C in RGB)
+    public Color defaultColor = new Color(0.54f, 0.48f, 0.48f, 1f); // Original platform color
     public float platformInterval = 1f;     // Time delay between platforms disappearing
 
     private bool sequenceStarted = false;
@@ -41,6 +41,9 @@ public class TimedPlatformManager : MonoBehaviour
         {
             // Blink the platform before disappearing
             yield return StartCoroutine(BlinkPlatform(platform));
+
+            // Notify the PortalGun to remove portals on the disappearing platform
+            NotifyPortalGun(platform);
 
             // Make the platform disappear
             platform.SetActive(false);
@@ -112,4 +115,14 @@ public class TimedPlatformManager : MonoBehaviour
 
         return randomizedPlatforms;
     }
+
+    void NotifyPortalGun(GameObject disappearingPlatform)
+    {
+        PortalGun portalGun = FindObjectOfType<PortalGun>();
+        if (portalGun != null)
+        {
+            portalGun.RemovePortalsOnPlatform(disappearingPlatform);
+        }
+    }
 }
+
