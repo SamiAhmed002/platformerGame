@@ -1,0 +1,4 @@
+Nebula_04_Cubemap.exr filter=lfs diff=lfs merge=lfs -text
+Nebula_04_Cubemap.exr.meta filter=lfs diff=lfs merge=lfs -text
+Nebula_04_Cubemap.exr.met filter=lfs diff=lfs merge=lfs -text
+/Users/krish/Documents/GitHub/platformerGame/Assets/light/Nebula_04_Cubemap.exr filter=lfs diff=lfs merge=lfs -text

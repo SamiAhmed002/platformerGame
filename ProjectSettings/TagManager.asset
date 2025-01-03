@@ -9,8 +9,10 @@ TagManager:
   - Floating
   - Death
   - Non-Portal
+  - RobotSphere
   - MovingPlatform
   - DisappearingPlatform
+  - InteractableRobot
   layers:
   - Default
   - TransparentFX

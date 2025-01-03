@@ -10,7 +10,8 @@ public class PortalGun : MonoBehaviour
     public float maxDistance = 500f;  // Maximum range of portal shooting
     
     [Header("Levitation Settings")]
-    public float levitationDistance = 3f;    // Distance at which object floats from player
+    public float levitationDistance = 3f;    // Default distance for regular objects
+    public float robotSphereLevitationDistance = 6f; // Distance for RobotSphere objects
     public float levitationSpeed = 8f;       // Speed at which object moves to levitation position
     public float levitationRange = 20f;      // Maximum range to pick up objects
 
@@ -82,7 +83,8 @@ public class PortalGun : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, levitationRange))
         {
-            if (hit.collider.CompareTag("Floating"))
+            // Check for either Floating or RobotSphere tag
+            if (hit.collider.CompareTag("Floating") || hit.collider.CompareTag("RobotSphere"))
             {
                 levitatedObject = hit.collider.gameObject;
                 levitatedRigidbody = levitatedObject.GetComponent<Rigidbody>();
@@ -131,9 +133,12 @@ public class PortalGun : MonoBehaviour
 
     void UpdateLevitatedObjectPosition()
     {
-        // Calculate desired position in front of the player
+        // Calculate desired position in front of the player using the appropriate distance
+        float currentLevitationDistance = levitatedObject.CompareTag("RobotSphere") ? 
+            robotSphereLevitationDistance : levitationDistance;
+        
         Vector3 targetPosition = playerCamera.transform.position + 
-                               playerCamera.transform.forward * levitationDistance;
+                               playerCamera.transform.forward * currentLevitationDistance;
 
         // Smoothly move the object to the target position
         if (levitatedRigidbody != null)
