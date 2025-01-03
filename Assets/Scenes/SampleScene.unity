@@ -1910,6 +1910,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1870236248}
+    - target: {fileID: 1433574280041322568, guid: e48f4055567674b159d7b1c4e6fab36d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0676
+      objectReference: {fileID: 0}
     - target: {fileID: 1562264974758570640, guid: e48f4055567674b159d7b1c4e6fab36d, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1926,17 +1930,25 @@ PrefabInstance:
       propertyPath: m_TagString
       value: DisappearingPlatform
       objectReference: {fileID: 0}
+    - target: {fileID: 2547548426052235248, guid: e48f4055567674b159d7b1c4e6fab36d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547548426052235248, guid: e48f4055567674b159d7b1c4e6fab36d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: d2f991811a28b4377bdbfb9c3c78cb89, type: 3}
     - target: {fileID: 2755451406304087954, guid: e48f4055567674b159d7b1c4e6fab36d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.9
+      value: -337.4
       objectReference: {fileID: 0}
     - target: {fileID: 2755451406304087954, guid: e48f4055567674b159d7b1c4e6fab36d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.8
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2755451406304087954, guid: e48f4055567674b159d7b1c4e6fab36d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.62
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2916926956886175868, guid: e48f4055567674b159d7b1c4e6fab36d, type: 3}
       propertyPath: player
