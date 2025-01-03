@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class CRAZYEnemyMovement : MonoBehaviour
 {
@@ -127,8 +128,26 @@ public class CRAZYEnemyMovement : MonoBehaviour
         if (linkedSurface != null && collision.gameObject == linkedSurface && !isChasing)
         {
             isInContactWithSurface = false;
+            
+            // Set isChasing to true briefly before freezing
+            isChasing = true;
+            animator.SetBool("isChasing", true);
+            
+            // Use StartCoroutine to add a small delay before freezing
+            StartCoroutine(FreezeAfterDelay(0.1f));
+            
             hasTeleported = true;
             rb.useGravity = true;
         }
+    }
+
+    private IEnumerator FreezeAfterDelay(float delay)
+    {
+        // Keep chasing for 2 seconds
+        yield return new WaitForSeconds(2f);
+        
+        // Then disable animator and stop chasing
+        animator.enabled = false;
+        isChasing = false;
     }
 }

@@ -1,27 +1,30 @@
 using UnityEngine;
+using System.Collections;
 
 public class ButtonSpawnerController : MonoBehaviour
 {
     [SerializeField]
     private GameObject buttonObject;  // The button to press
     [SerializeField]
+    private GameObject resetButtonObject;  // The reset button
+    [SerializeField]
     private GameObject objectToSpawn;  // The prefab to spawn
     [SerializeField]
-    private Transform spawnPoint;  // Where to spawn from (can be an empty GameObject at the ceiling)
+    private Transform spawnPoint;  // Where to spawn from
     
     public float buttonOffset = 0.5f;  // How far the button moves down when pressed
     public float speed = 15f;          // Button movement speed
     public int maxSpawns = 5;  // Maximum number of objects that can be spawned
     
     private Vector3 buttonInitialPos;
-    private bool canSpawn = true;      // To prevent rapid-fire spawning
-    private float spawnCooldown = 1f;  // Time between spawns
-    private float cooldownTimer = 0f;
-    private int spawnCount = 0;  // Track how many objects we've spawned
+    private Vector3 resetButtonInitialPos;
+    private bool isSpawning = false;
+    private bool wasButtonPressed = false; // Track if button was already pressed
+    private System.Collections.Generic.List<GameObject> spawnedObjects = new System.Collections.Generic.List<GameObject>(); // Using List instead of array
 
     void Start()
     {
-        if (buttonObject == null || objectToSpawn == null || spawnPoint == null)
+        if (buttonObject == null || objectToSpawn == null || spawnPoint == null || resetButtonObject == null)
         {
             Debug.LogError("Please assign all required fields in the inspector!");
             enabled = false;
@@ -29,11 +32,20 @@ public class ButtonSpawnerController : MonoBehaviour
         }
 
         buttonInitialPos = buttonObject.transform.position;
+        resetButtonInitialPos = resetButtonObject.transform.position;
     }
 
     void Update()
     {
-        if (IsButtonPressed())
+        HandleMainButton();
+        HandleResetButton();
+    }
+
+    private void HandleMainButton()
+    {
+        bool isPressed = IsButtonPressed(buttonObject);
+        
+        if (isPressed)
         {
             // Move button down
             buttonObject.transform.position = Vector3.MoveTowards(
@@ -42,13 +54,15 @@ public class ButtonSpawnerController : MonoBehaviour
                 speed * Time.deltaTime
             );
 
-            // Spawn object if we can
-            if (canSpawn)
+            // Only start spawning if:
+            // 1. Button wasn't pressed before
+            // 2. We're not already spawning
+            // 3. We haven't reached max objects
+            if (!wasButtonPressed && !isSpawning && spawnedObjects.Count < maxSpawns)
             {
-                SpawnObject();
-                canSpawn = false;
-                cooldownTimer = spawnCooldown;
+                StartCoroutine(SpawnSequence());
             }
+            wasButtonPressed = true;
         }
         else
         {
@@ -58,22 +72,38 @@ public class ButtonSpawnerController : MonoBehaviour
                 buttonInitialPos,
                 speed * Time.deltaTime
             );
-        }
-
-        // Handle spawn cooldown
-        if (!canSpawn)
-        {
-            cooldownTimer -= Time.deltaTime;
-            if (cooldownTimer <= 0)
-            {
-                canSpawn = true;
-            }
+            wasButtonPressed = false;
         }
     }
 
-    private bool IsButtonPressed()
+    private void HandleResetButton()
     {
-        Collider buttonCollider = buttonObject.GetComponent<Collider>();
+        if (IsButtonPressed(resetButtonObject))
+        {
+            // Move reset button down
+            resetButtonObject.transform.position = Vector3.MoveTowards(
+                resetButtonObject.transform.position,
+                resetButtonInitialPos - new Vector3(0, buttonOffset, 0),
+                speed * Time.deltaTime
+            );
+
+            // Destroy all spawned objects
+            DestroySpawnedObjects();
+        }
+        else
+        {
+            // Reset button position
+            resetButtonObject.transform.position = Vector3.MoveTowards(
+                resetButtonObject.transform.position,
+                resetButtonInitialPos,
+                speed * Time.deltaTime
+            );
+        }
+    }
+
+    private bool IsButtonPressed(GameObject button)
+    {
+        Collider buttonCollider = button.GetComponent<Collider>();
         
         Collider[] overlappingColliders = Physics.OverlapBox(
             buttonCollider.bounds.center,
@@ -90,19 +120,40 @@ public class ButtonSpawnerController : MonoBehaviour
         return false;
     }
 
-    private void SpawnObject()
+    private IEnumerator SpawnSequence()
     {
-        // Only spawn if we haven't reached the limit
-        if (spawnCount < maxSpawns)
+        isSpawning = true;
+
+        while (spawnedObjects.Count < maxSpawns)
         {
-            Instantiate(objectToSpawn, spawnPoint.position, Quaternion.identity);
-            spawnCount++;
+            GameObject spawnedObject = Instantiate(objectToSpawn, spawnPoint.position, Quaternion.identity);
+            spawnedObjects.Add(spawnedObject);
             
-            // Optionally log when reaching the spawn limit
-            if (spawnCount >= maxSpawns)
+            if (spawnedObjects.Count >= maxSpawns)
             {
                 Debug.Log("Maximum spawn limit reached!");
             }
+            
+            yield return new WaitForSeconds(1f);
         }
+
+        isSpawning = false;
+    }
+
+    private void DestroySpawnedObjects()
+    {
+        // Stop any ongoing spawning
+        StopAllCoroutines();
+        isSpawning = false;
+
+        // Destroy all spawned objects
+        foreach (GameObject obj in spawnedObjects)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        spawnedObjects.Clear();
     }
 } 

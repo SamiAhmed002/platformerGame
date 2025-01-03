@@ -5377,7 +5377,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 0.3608881, b: 0.14705884, a: 1}
-      maxColor: {r: 1, g: 0.4933105, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.06511342, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9999,7 +9999,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830508508936448}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c20d53f2b0eff7438f5769058cf51d6, type: 3}
   m_Name: 

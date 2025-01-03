@@ -6,6 +6,8 @@ public class ButtonDoorController_new : MonoBehaviour
 {
     [SerializeField]
     private List<GameObject> buttons = new List<GameObject>();  // List of buttons
+    [SerializeField]
+    private bool requireAllButtons = false;  // New parameter to require all buttons
     public GameObject door;    
 
     public float buttonOffset = 0.5f;  
@@ -35,52 +37,63 @@ public class ButtonDoorController_new : MonoBehaviour
 
     void Update()
     {
-        if (IsAnyButtonPressed())
+        // Handle button movements independently
+        for (int i = 0; i < buttons.Count; i++)
         {
-            // Move door upward and pressed buttons downward
-            door.transform.position = Vector3.MoveTowards(door.transform.position, 
-                doorInitialPos + new Vector3(0, doorOffset, 0), speed * Time.deltaTime);
-
-            // Update each button position
-            for (int i = 0; i < buttons.Count; i++)
+            if (IsPlayerOnButton(buttons[i]))
             {
-                if (IsPlayerOnButton(buttons[i]))
-                {
-                    buttons[i].transform.position = Vector3.MoveTowards(buttons[i].transform.position, 
-                        buttonInitialPositions[i] - new Vector3(0, buttonOffset, 0), speed * Time.deltaTime);
-                }
-                else
-                {
-                    buttons[i].transform.position = Vector3.MoveTowards(buttons[i].transform.position, 
-                        buttonInitialPositions[i], speed * Time.deltaTime);
-                }
+                buttons[i].transform.position = Vector3.MoveTowards(buttons[i].transform.position, 
+                    buttonInitialPositions[i] - new Vector3(0, buttonOffset, 0), speed * Time.deltaTime);
             }
-        }
-        else
-        {
-            // Reset all positions if no button is pressed
-            door.transform.position = Vector3.MoveTowards(door.transform.position, 
-                doorInitialPos, speed * Time.deltaTime);
-
-            for (int i = 0; i < buttons.Count; i++)
+            else
             {
                 buttons[i].transform.position = Vector3.MoveTowards(buttons[i].transform.position, 
                     buttonInitialPositions[i], speed * Time.deltaTime);
             }
+        }
+
+        // Handle door movement based on button press conditions
+        if (IsAnyButtonPressed())
+        {
+            // Move door upward
+            door.transform.position = Vector3.MoveTowards(door.transform.position, 
+                doorInitialPos + new Vector3(0, doorOffset, 0), speed * Time.deltaTime);
+        }
+        else
+        {
+            // Reset door position
+            door.transform.position = Vector3.MoveTowards(door.transform.position, 
+                doorInitialPos, speed * Time.deltaTime);
         }
     }
 
     // Check if any button is being pressed
     private bool IsAnyButtonPressed()
     {
-        foreach (GameObject button in buttons)
+        if (requireAllButtons)
         {
-            if (IsPlayerOnButton(button))
+            // Check if ALL buttons are pressed
+            foreach (GameObject button in buttons)
             {
-                return true;
+                if (!IsPlayerOnButton(button))
+                {
+                    return false;  // If any button is not pressed, return false
+                }
             }
+            return true;  // All buttons are pressed
         }
-        return false;
+        else
+        {
+            // Original behavior - check if ANY button is pressed
+            foreach (GameObject button in buttons)
+            {
+                if (IsPlayerOnButton(button))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     // Modified to check for either rigidbodies or player
