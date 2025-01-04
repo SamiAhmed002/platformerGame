@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetSpawn(Vector3 checkpoint)
     {
-        spawnPosition = checkpoint;
+        SpawnLocation.spawnPosition = checkpoint;
     }
 
     public void Respawn()

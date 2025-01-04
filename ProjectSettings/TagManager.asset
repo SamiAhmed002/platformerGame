@@ -6,16 +6,22 @@ TagManager:
   tags:
   - Portal
   - Enemy
+  - Floating
+  - Death
+  - Non-Portal
+  - RobotSphere
+  - MovingPlatform
+  - DisappearingPlatform
+  - InteractableRobot
   - Border
   - Startpoint
   - Midpoint
   - Easypoint
-  - Floating
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - InteractableRobot
   - Water
   - UI
   - 

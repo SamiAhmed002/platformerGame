@@ -6,7 +6,6 @@ using TMPro;
 public class CoinCollection : MonoBehaviour
 {
     public GameObject player;
-    public InventorySelect inventorySelect; // Reference to the InventorySelect script
     public TextMeshProUGUI coinCounterText;
 
     private void OnTriggerEnter(Collider other)
@@ -14,8 +13,8 @@ public class CoinCollection : MonoBehaviour
         // Check if the colliding object is the player
         if (other.gameObject == player)
         {
-                inventorySelect.coinCount += 1;
-                coinCounterText.text = "x" + inventorySelect.coinCount;
+                SpawnLocation.coins += 1;
+                coinCounterText.text = "x" + SpawnLocation.coins;
 
             // Destroy the coin object
             Destroy(gameObject);

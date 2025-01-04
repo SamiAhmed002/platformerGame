@@ -9,9 +9,10 @@ public class PortalGun : MonoBehaviour
     public GameObject portalPrefabB;  // Prefab for Portal B
     public Camera playerCamera;       // Reference to player's camera
     public float maxDistance = 500f;  // Maximum range of portal shooting
-
+    
     [Header("Levitation Settings")]
-    public float levitationDistance = 3f;    // Distance at which object floats from player
+    public float levitationDistance = 3f;    // Default distance for regular objects
+    public float robotSphereLevitationDistance = 6f; // Distance for RobotSphere objects
     public float levitationSpeed = 8f;       // Speed at which object moves to levitation position
     public float levitationRange = 20f;      // Maximum range to pick up objects
 
@@ -40,6 +41,10 @@ public class PortalGun : MonoBehaviour
     private Collider levitatedCollider; // Reference to levitated object's collider
     private Animator levitatedAnimator = null;
 
+    private GameObject platformForPortalA = null; // Platform associated with Portal A
+    private GameObject platformForPortalB = null; // Platform associated with Portal B
+
+    public LayerMask portalPlacementLayer;
 
     void Start()
     {
@@ -56,7 +61,7 @@ public class PortalGun : MonoBehaviour
     void Update()
     {
         // Right-click to shoot a portal
-        if (Input.GetMouseButtonDown(1) && !pauseGame.isPaused)
+        if (Input.GetMouseButtonDown(1))
         {
             switch (InventorySelect.currentSelection.ID) {
                 case 1:
@@ -72,10 +77,10 @@ public class PortalGun : MonoBehaviour
                     break;
 
                 case 4:
-                    if (inventorySelect.coinCount >= 5) {
+                    if (SpawnLocation.coins >= 5) {
                         Slow();
-                        inventorySelect.coinCount -= 5;
-                        coinCounterText.text = "x" + inventorySelect.coinCount;
+                        SpawnLocation.coins -= 5;
+                        coinCounterText.text = "x" + SpawnLocation.coins;
                         break;
                     }
                     else {
@@ -105,6 +110,12 @@ public class PortalGun : MonoBehaviour
                 StopLevitation();
             }
 
+            // Update levitated object position while holding
+            if (levitatedObject != null)
+            {
+                UpdateLevitatedObjectPosition();
+            }
+
             // Launch object with F while levitating
             if (Input.GetKeyDown(KeyCode.F) && levitatedObject != null)
             {
@@ -112,61 +123,6 @@ public class PortalGun : MonoBehaviour
                 LaunchObject();
             }
         }
-
-        // Update levitated object position while holding
-        if (levitatedObject != null)
-        {
-            UpdateLevitatedObjectPosition();
-        }
-    }
-
-    void ShootPortal()
-    {
-        // Raycast from the center of the screen (crosshair)
-        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, maxDistance))
-        {
-            Debug.Log("Hit: " + hit.collider.gameObject.name);
-            if (hit.collider.CompareTag("Portal") == false && hit.collider.CompareTag("Enemy") == false && hit.collider.CompareTag("Border") == false)
-            {
-                // If both portals are active, destroy them before placing new ones
-                if (portalA != null && portalB != null)
-                {
-                    Destroy(portalA);
-                    Destroy(portalB);
-                    portalA = null;
-                    portalB = null;
-                }
-
-                // Place the first portal (Portal A) if none exist
-                if (portalA == null)
-                {
-                    // Offset the portal so it sticks to the wall
-                    Vector3 portalPosition = hit.point + hit.normal * 0.05f; // Adjust the 0.05f based on portal thickness
-                    portalA = Instantiate(portalPrefabA, portalPosition, Quaternion.LookRotation(hit.normal));
-                    Debug.Log("Portal A placed at: " + hit.point);
-                }
-                // Place the second portal (Portal B) if Portal A exists
-                else if (portalB == null)
-                {
-                    Vector3 portalPosition = hit.point + hit.normal * 0.05f; // Same adjustment
-                    portalB = Instantiate(portalPrefabB, portalPosition, Quaternion.LookRotation(hit.normal));
-                    Debug.Log("Portal B placed at: " + hit.point);
-
-                    // Link the two portals
-                    portalA.GetComponent<Portal>().linkedPortal = portalB;
-                    portalB.GetComponent<Portal>().linkedPortal = portalA;
-                }
-            }
-        }
-    }
-
-    void ShootLaser()
-    {
-        Destroy(GameObject.Find("Laser Beam"));
-        beam = new LaserBeam(gameObject.transform.position, gameObject.transform.right, material);
     }
 
     void TryStartLevitation()
@@ -178,7 +134,8 @@ public class PortalGun : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, levitationRange))
         {
-            if (hit.collider.CompareTag("Floating"))
+            // Check for either Floating or RobotSphere tag
+            if (hit.collider.CompareTag("Floating") || hit.collider.CompareTag("RobotSphere"))
             {
                 levitatedObject = hit.collider.gameObject;
                 levitatedRigidbody = levitatedObject.GetComponent<Rigidbody>();
@@ -227,9 +184,12 @@ public class PortalGun : MonoBehaviour
 
     void UpdateLevitatedObjectPosition()
     {
-        // Calculate desired position in front of the player
+        // Calculate desired position in front of the player using the appropriate distance
+        float currentLevitationDistance = levitatedObject.CompareTag("RobotSphere") ? 
+            robotSphereLevitationDistance : levitationDistance;
+        
         Vector3 targetPosition = playerCamera.transform.position + 
-                               playerCamera.transform.forward * levitationDistance;
+                               playerCamera.transform.forward * currentLevitationDistance;
 
         // Smoothly move the object to the target position
         if (levitatedRigidbody != null)
@@ -238,36 +198,65 @@ public class PortalGun : MonoBehaviour
             levitatedRigidbody.velocity = direction * levitationSpeed;
         }
     }
-
-    void LaunchObject()
+    
+    void ShootPortal()
     {
-        if (levitatedObject != null && levitatedRigidbody != null)
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, maxDistance))
         {
-            // Re-enable collision between player and object
-            if (levitatedCollider != null && playerCollider != null)
+            Debug.Log("Hit: " + hit.collider.gameObject.name);
+
+            // Only allow portals to be placed on valid surfaces
+            if (!hit.collider.CompareTag("Portal") && !hit.collider.CompareTag("Enemy") &&
+                !hit.collider.CompareTag("Non-Portal") && !hit.collider.CompareTag("Border"))
             {
-                Physics.IgnoreCollision(playerCollider, levitatedCollider, false);
+                // Get the platform associated with the hit
+                GameObject hitPlatform = GetPlatformFromHit(hit);
+
+                // If both portals are active, destroy them before placing new ones
+                if (portalA != null && portalB != null)
+                {
+                    Destroy(portalA);
+                    Destroy(portalB);
+                    portalA = null;
+                    portalB = null;
+                    platformForPortalA = null;
+                    platformForPortalB = null;
+                }
+
+                // Place the first portal (Portal A) if none exist
+                if (portalA == null)
+                {
+                    Vector3 portalPosition = hit.point + hit.normal * 0.05f;
+                    portalA = Instantiate(portalPrefabA, portalPosition, Quaternion.LookRotation(hit.normal));
+                    platformForPortalA = hitPlatform; // Associate Portal A with its platform
+                    Debug.Log("Portal A placed at: " + hit.point);
+                }
+                // Place the second portal (Portal B) if Portal A exists
+                else if (portalB == null)
+                {
+                    Vector3 portalPosition = hit.point + hit.normal * 0.05f;
+                    portalB = Instantiate(portalPrefabB, portalPosition, Quaternion.LookRotation(hit.normal));
+                    platformForPortalB = hitPlatform; // Associate Portal B with its platform
+
+                    // Link the two portals
+                    portalA.GetComponent<Portal>().linkedPortal = portalB;
+                    portalB.GetComponent<Portal>().linkedPortal = portalA;
+
+                    Debug.Log("Portal B placed at: " + hit.point);
+                }
             }
-
-            // Add these lines to re-enable the animator
-            if (levitatedAnimator != null)
-            {
-                levitatedAnimator.enabled = true;
-            }
-
-            // Apply launch force in the direction player is facing
-            levitatedRigidbody.velocity = Vector3.zero;
-            levitatedRigidbody.AddForce(playerCamera.transform.forward * launchForce);
-
-            // Reset object state
-            levitatedRigidbody.useGravity = true;
-            levitatedRigidbody.drag = 0f;
-            levitatedObject = null;
-            levitatedRigidbody = null;
-            levitatedCollider = null;
-            levitatedAnimator = null;
         }
     }
+
+    void ShootLaser()
+    {
+        Destroy(GameObject.Find("Laser Beam"));
+        beam = new LaserBeam(gameObject.transform.position, -gameObject.transform.forward, material);
+    }
+
 
     void Slow() {
     if (!movement.slowPowerActive)
@@ -299,4 +288,70 @@ public class PortalGun : MonoBehaviour
     movement.slowPowerActive = false;
     particles.Stop();
 }
+    GameObject GetPlatformFromHit(RaycastHit hit)
+    {
+        // Check if the hit object or its parent has the "DisappearingPlatform" tag
+        if (hit.collider.CompareTag("DisappearingPlatform"))
+        {
+            return hit.collider.gameObject;
+        }
+        else if (hit.collider.transform.parent != null &&
+                 hit.collider.transform.parent.CompareTag("DisappearingPlatform"))
+        {
+            return hit.collider.transform.parent.gameObject;
+        }
+        return null; // Return null if not a disappearing platform
+    }
+
+    public void RemovePortalsOnPlatform(GameObject platform)
+    {
+        // Remove Portal A if it's on the disappearing platform
+        if (platformForPortalA == platform)
+        {
+            Destroy(portalA);
+            portalA = null;
+            platformForPortalA = null;
+            Debug.Log("Removed Portal A as the platform disappeared.");
+        }
+
+        // Remove Portal B if it's on the disappearing platform
+        if (platformForPortalB == platform)
+        {
+            Destroy(portalB);
+            portalB = null;
+            platformForPortalB = null;
+            Debug.Log("Removed Portal B as the platform disappeared.");
+        }
+    }
+
+
+    void LaunchObject()
+    {
+            if (levitatedObject != null && levitatedRigidbody != null)
+            {
+                // Re-enable collision between player and object
+                if (levitatedCollider != null && playerCollider != null)
+                {
+                    Physics.IgnoreCollision(playerCollider, levitatedCollider, false);
+                }
+
+                // Add these lines to re-enable the animator
+                if (levitatedAnimator != null)
+                {
+                    levitatedAnimator.enabled = true;
+                }
+
+                // Apply launch force in the direction player is facing
+                levitatedRigidbody.velocity = Vector3.zero;
+                levitatedRigidbody.AddForce(playerCamera.transform.forward * launchForce);
+
+                // Reset object state
+                levitatedRigidbody.useGravity = true;
+                levitatedRigidbody.drag = 0f;
+                levitatedObject = null;
+                levitatedRigidbody = null;
+                levitatedCollider = null;
+                levitatedAnimator = null;
+            }
+    }
 }

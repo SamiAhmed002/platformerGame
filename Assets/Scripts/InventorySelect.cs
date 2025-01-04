@@ -14,9 +14,7 @@ public class InventorySelect : MonoBehaviour
     public RawImage powerIcon;
     public Texture itemImage;
     private Button button;
-    public int coinCount = 0;
     public TextMeshProUGUI coinText;
-    public TextMeshProUGUI HUDCoinText;
 
     void Start()
     {
@@ -26,6 +24,9 @@ public class InventorySelect : MonoBehaviour
             button.interactable = true;
             Selected();
         }
+        else if ((this.ID == 2 && SpawnLocation.hasLaser) || (this.ID == 3 && SpawnLocation.hasLevitation)) {
+            button.interactable = true;
+        }
         else {
             button.interactable = false;
         }
@@ -33,14 +34,16 @@ public class InventorySelect : MonoBehaviour
 
     void Update() {
         if (this.ID == 4) {
-            coinText.text = coinCount + "/5";
-            HUDCoinText.text = "x" + coinCount;
-            if (coinCount >= 5) {
+            coinText.text = SpawnLocation.coins + "/5";
+            if (SpawnLocation.coins >= 5) {
                 button.interactable = true;
             }
             else {
                 button.interactable = false;
             }
+        }
+        if ((this.ID == 2 && SpawnLocation.hasLaser) || (this.ID == 3 && SpawnLocation.hasLevitation)) {
+            button.interactable = true;
         }
     }
 
@@ -62,10 +65,6 @@ public class InventorySelect : MonoBehaviour
 
     public void HoverExit() {
         itemText.text = currentSelection.itemName;
-    }
-
-    public void UnlockButton() {
-        button.interactable = true;
     }
 
 }

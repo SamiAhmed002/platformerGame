@@ -45,6 +45,9 @@ public class TimedPlatformManager : MonoBehaviour
             // Blink the platform before disappearing
             yield return StartCoroutine(BlinkPlatform(platform));
 
+            // Notify the PortalGun to remove portals on the disappearing platform
+            NotifyPortalGun(platform);
+
             // Make the platform disappear
             platform.SetActive(false);
 
@@ -115,4 +118,14 @@ public class TimedPlatformManager : MonoBehaviour
 
         return randomizedPlatforms;
     }
+
+    void NotifyPortalGun(GameObject disappearingPlatform)
+    {
+        PortalGun portalGun = FindObjectOfType<PortalGun>();
+        if (portalGun != null)
+        {
+            portalGun.RemovePortalsOnPlatform(disappearingPlatform);
+        }
+    }
 }
+

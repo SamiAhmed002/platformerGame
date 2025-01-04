@@ -67,6 +67,9 @@ public class ConcentricPlatformManager : MonoBehaviour
         // Blink the platform
         yield return StartCoroutine(BlinkPlatform(platform));
 
+        // Notify the PortalGun to remove portals on the disappearing platform
+        NotifyPortalGun(platform);
+
         // Make the platform disappear
         platform.SetActive(false);
 
@@ -125,4 +128,14 @@ public class ConcentricPlatformManager : MonoBehaviour
         int count = Mathf.Min(maxDisappearingPlatforms, randomizedPlatforms.Count);
         return randomizedPlatforms.GetRange(0, count);
     }
+
+    void NotifyPortalGun(GameObject disappearingPlatform)
+    {
+        PortalGun portalGun = FindObjectOfType<PortalGun>();
+        if (portalGun != null)
+        {
+            portalGun.RemovePortalsOnPlatform(disappearingPlatform);
+        }
+    }
 }
+
