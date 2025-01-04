@@ -12,9 +12,9 @@ public class ConcentricPlatformManager : MonoBehaviour
 {
     public List<PlatformRow> platformRows = new List<PlatformRow>(); // List of rows, each containing platforms
     public int maxDisappearingPlatforms = 1; // Fewer platforms disappear at the same time
-    public float blinkInterval = 0.5f;       // Time between blinks (slower for easier gameplay)
-    public int blinkCount = 2;              // Fewer blinks to reduce reaction time needed
-    public float disappearDuration = 2f;   // Shorter disappear time
+    public float blinkInterval = 0.3f;       // Time between blinks (slower for easier gameplay)
+    public int blinkCount = 3;              // Fewer blinks to reduce reaction time needed
+    public float disappearDuration = 3f;   // Shorter disappear time
     public Color blinkColor = Color.red;    // Color to blink
     public Color defaultColor = new Color(0.54f, 0.48f, 0.48f, 1f); // Default platform color
     public float rowDisappearInterval = 2f; // Longer delay between row resets
@@ -25,6 +25,8 @@ public class ConcentricPlatformManager : MonoBehaviour
     void Start()
     {
         // Start the row-by-row disappearing sequence
+        blinkInterval = 0.3f / (SettingsManager.gameMode + 1);      // Time between blinks
+        blinkCount = 3 - SettingsManager.gameMode;
         StartCoroutine(RowDisappearingSequenceLoop());
     }
 

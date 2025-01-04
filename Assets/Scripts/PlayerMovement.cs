@@ -17,14 +17,14 @@ public class PlayerMovement : MonoBehaviour
     public float lookSpeed;               // Sensitivity for looking around (mouse movement).
     public float lookXLimit = 75f;        // Limit to the vertical looking angle.
     public float defaultHeight = 2f;      // Default height of the player (standing height).
-    public float crouchHeight = 1f;       // Height of the player when crouched.
-    public float crouchSpeed = 3f;        // Movement speed when crouching.
 
     private Vector3 moveDirection = Vector3.zero;  // Stores the player's movement direction.
     private float rotationX = 0;                   // Tracks the vertical rotation angle for looking up/down.
     private CharacterController characterController; // Reference to the CharacterController component.
     private bool canMove = true;         // Flag to check if the player can move.
-    private Vector3 spawnPosition;
+    public Vector3 spawnPosition;
+
+    public bool slowPowerActive = false;
 
     void Start()
     {
@@ -32,15 +32,13 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         characterController.enabled = false;
 
-        // Store the initial position as spawn position
-        spawnPosition = transform.position;
-
-        // Set the spawn position and enable the controller
-        transform.position = spawnPosition;
+        // Set the spawn position and enable the controller.
+        spawnPosition = SpawnLocation.spawnPosition;
+        transform.position = SpawnLocation.spawnPosition;
         characterController.enabled = true;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;  // Lock the mouse cursor to the center of the screen.
+        Cursor.visible = false;                   // Hide the cursor while playing.
     }
 
     void Update()
@@ -79,19 +77,6 @@ public class PlayerMovement : MonoBehaviour
             moveDirection.y -= gravity * Time.deltaTime;
         }
 
-        // Crouching logic: If the player presses the 'R' key, crouch by adjusting height and reducing movement speed.
-        if (Input.GetKey(KeyCode.R) && canMove)
-        {
-            characterController.height = crouchHeight;  // Set height to crouch height.
-            walkSpeed = crouchSpeed;                    // Adjust walking speed to crouch speed.
-            runSpeed = crouchSpeed;                     // Adjust running speed to crouch speed.
-        }
-        else
-        {
-            // Return to normal height and speeds when not crouching.
-            characterController.height = defaultHeight;
-        }
-
         // Move the character using the calculated movement direction.
         characterController.Move(moveDirection * Time.deltaTime);
 
@@ -110,7 +95,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Adjust look speed dynamically based on sensitivity.
-        lookSpeed = 2f * sensitivity.value * Time.timeScale;
+        lookSpeed = 2f * sensitivity.value * Time.timeScale / (slowPowerActive ? 0.5f : 1);
+
+        gravity = 10f / (slowPowerActive ? 0.5f : 1);
+        jumpPower = 7f / (slowPowerActive ? 0.5f : 1);
+
     }
 
     public void ApplyVerticalLift(float liftSpeed)
@@ -121,17 +110,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetSpawn(Vector3 checkpoint)
     {
-        spawnPosition = checkpoint;
-        Debug.Log($"New spawn position set: {checkpoint}");
+        SpawnLocation.spawnPosition = checkpoint;
     }
 
     public void Respawn()
     {
-        Debug.Log($"Respawning to spawn position: {spawnPosition}");
+        Debug.Log("Respawning to spawn position...");
         characterController.enabled = false;
         transform.position = spawnPosition;
+        Debug.Log("Spawn position set to " + spawnPosition);
         characterController.enabled = true;
     }
+
 }
-
-

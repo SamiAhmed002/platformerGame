@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PortalGun : MonoBehaviour
 {
@@ -18,21 +19,36 @@ public class PortalGun : MonoBehaviour
     [Header("Launch Settings")]
     public float launchForce = 2000f;  // Force applied when launching object
 
-    private GameObject portalA = null;        // Instance of Portal A
-    private GameObject portalB = null;        // Instance of Portal B
+    private GameObject portalA = null;  // Instance of Portal A
+    private GameObject portalB = null;  // Instance of Portal B
+
+    public PauseGame pauseGame;
+    public InventorySelect inventorySelect;
+    public TextMeshProUGUI coinCounterText;
+    public ParticleSystem particles;
+
+    public Material material;
+    private bool laserActive;
+    LaserBeam beam;
+
+    public GameObject player;
+    public PlayerMovement movement;
+
+    private bool levitateActive;
     private GameObject levitatedObject = null;
     private Rigidbody levitatedRigidbody = null;
     private Collider playerCollider;    // Reference to player's collider
     private Collider levitatedCollider; // Reference to levitated object's collider
     private Animator levitatedAnimator = null;
+
     private GameObject platformForPortalA = null; // Platform associated with Portal A
     private GameObject platformForPortalB = null; // Platform associated with Portal B
-
 
     public LayerMask portalPlacementLayer;
 
     void Start()
     {
+        particles.Stop();
         // Get the player's collider (assuming PortalGun is attached to the player)
         playerCollider = GetComponent<Collider>();
         if (playerCollider == null)
@@ -47,30 +63,65 @@ public class PortalGun : MonoBehaviour
         // Right-click to shoot a portal
         if (Input.GetMouseButtonDown(1))
         {
-            ShootPortal();
+            switch (InventorySelect.currentSelection.ID) {
+                case 1:
+                    ShootPortal();
+                    break;
+
+                case 2:
+                    laserActive = true;
+                    break;
+
+                case 3:
+                    levitateActive = true;
+                    break;
+
+                case 4:
+                    if (SpawnLocation.coins >= 5) {
+                        Slow();
+                        SpawnLocation.coins -= 5;
+                        coinCounterText.text = "x" + SpawnLocation.coins;
+                        break;
+                    }
+                    else {
+                        Debug.Log("Not enough coins");
+                    }
+                    break;
+            }
         }
 
-        // Left-click to start levitation
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonUp(1) && InventorySelect.currentSelection.ID == 2)
+        {
+            laserActive = false;
+            Destroy(GameObject.Find("Laser Beam")); // Destroy the laser beam when button is released
+        }
+
+        if (laserActive) {
+            ShootLaser();
+        }
+
+        if (levitateActive)
         {
             TryStartLevitation();
-        }
-        // Release left-click to drop object
-        else if (Input.GetMouseButtonUp(0))
-        {
-            StopLevitation();
-        }
 
-        // Launch object with F while levitating
-        if (Input.GetKeyDown(KeyCode.F) && levitatedObject != null)
-        {
-            LaunchObject();
-        }
+            if (Input.GetMouseButtonUp(1) && InventorySelect.currentSelection.ID == 3)
+            {
+                levitateActive = false;
+                StopLevitation();
+            }
 
-        // Update levitated object position while holding
-        if (levitatedObject != null)
-        {
-            UpdateLevitatedObjectPosition();
+            // Update levitated object position while holding
+            if (levitatedObject != null)
+            {
+                UpdateLevitatedObjectPosition();
+            }
+
+            // Launch object with F while levitating
+            if (Input.GetKeyDown(KeyCode.F) && levitatedObject != null)
+            {
+                levitateActive = false;
+                LaunchObject();
+            }
         }
     }
 
@@ -159,7 +210,7 @@ public class PortalGun : MonoBehaviour
 
             // Only allow portals to be placed on valid surfaces
             if (!hit.collider.CompareTag("Portal") && !hit.collider.CompareTag("Enemy") &&
-                !hit.collider.CompareTag("Non-Portal"))
+                !hit.collider.CompareTag("Non-Portal") && !hit.collider.CompareTag("Border"))
             {
                 // Get the platform associated with the hit
                 GameObject hitPlatform = GetPlatformFromHit(hit);
@@ -200,6 +251,43 @@ public class PortalGun : MonoBehaviour
         }
     }
 
+    void ShootLaser()
+    {
+        Destroy(GameObject.Find("Laser Beam"));
+        beam = new LaserBeam(gameObject.transform.position, -gameObject.transform.forward, material);
+    }
+
+
+    void Slow() {
+    if (!movement.slowPowerActive)
+        {
+            StartCoroutine(SlowEffect());
+        }
+    }
+
+    IEnumerator SlowEffect()
+{
+    float slowDuration = 10f;
+    float elapsedTime = 0f;
+
+    Time.timeScale = 0.5f;
+    movement.slowPowerActive = true;
+    particles.Play();
+
+    while (elapsedTime < slowDuration)
+    {
+        if (Time.deltaTime > 0)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+        }
+        yield return null;
+    }
+
+    Debug.Log("Slowed time ended");
+    Time.timeScale = 1f;
+    movement.slowPowerActive = false;
+    particles.Stop();
+}
     GameObject GetPlatformFromHit(RaycastHit hit)
     {
         // Check if the hit object or its parent has the "DisappearingPlatform" tag

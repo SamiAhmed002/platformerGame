@@ -6,17 +6,20 @@ public class TimedPlatformManager : MonoBehaviour
 {
     public List<GameObject> platforms;       // List of all platforms
     public List<GameObject> nonDisappearingPlatforms; // Platforms that won't disappear
-    public float blinkInterval = 0.3f;      // Time between blinks
-    public int blinkCount = 3;              // Number of blinks before disappearing
+    public float blinkInterval;      // Time between blinks
+    public int blinkCount;    // Number of blinks before disappearing
     public float disappearDuration = 3f;   // How long a platform stays disappeared
     public Color blinkColor = Color.red;    // Color to blink (e.g., red)
-    public Color defaultColor = new Color(0.54f, 0.48f, 0.48f, 1f); // Original platform color
+    public Color defaultColor = new Color(0.54f, 0.48f, 0.48f, 1f); // Original platform color (897C7C in RGB)
     public float platformInterval = 1f;     // Time delay between platforms disappearing
 
     private bool sequenceStarted = false;
 
     void Start()
     {
+
+        blinkInterval = 0.3f / (SettingsManager.gameMode + 1);      // Time between blinks
+        blinkCount = 3 - SettingsManager.gameMode;
         // Start the disappearing sequence loop
         StartCoroutine(DisappearingSequenceLoop());
     }

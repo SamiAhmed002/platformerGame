@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DeathTrigger : MonoBehaviour {
+public class DeathTrigger : MonoBehaviour
+{
 
     private Vector3 initialPosition;
     private GameObject player;

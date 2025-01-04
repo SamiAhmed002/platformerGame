@@ -314,7 +314,7 @@ public class RedLightGreenLightController : MonoBehaviour
 
     private bool HasCameraMoved()
     {
-        if (playerCamera == null) return false;
+        if (playerCamera == null || SettingsManager.gameMode < 2) return false;
 
         // Check how much the camera has rotated
         float rotationDifference = Quaternion.Angle(playerCamera.transform.rotation, lastCameraRotation);

@@ -20,6 +20,7 @@ public class MovingPlatform : MonoBehaviour
 
     void Start()
     {
+        _speed = _speed * (SettingsManager.gameMode + 1);
         TargetNextWaypoint();
     }
 

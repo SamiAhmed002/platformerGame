@@ -7,11 +7,12 @@ using UnityEngine.EventSystems;
 public class ButtonHighlighting : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text buttonText; // Reference to the TextMeshPro component
+    public int id;
 
     // Called when the mouse pointer enters the button
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (buttonText != null)
+        if (buttonText != null && SettingsManager.progress >= this.id)
         {
             buttonText.fontStyle = FontStyles.Bold;
         }
