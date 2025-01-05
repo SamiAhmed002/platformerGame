@@ -15,7 +15,11 @@ public class PlatformManager : MonoBehaviour
 
     public List<GameObject> allPlatforms = new List<GameObject>();
 
-
+    // Make rowCount and columnCount customizable in the Inspector
+    [SerializeField]
+    private int rowCount = 9;
+    [SerializeField]
+    private int columnCount = 4;
 
     void Start()
     {
@@ -54,10 +58,6 @@ public class PlatformManager : MonoBehaviour
         UpdateCountdownText(respawnThreshold - respawnCount);
     }
 
-
-    private int rowCount = 9;
-    private int columnCount = 4;
-
     void InitializePlatforms()
     {
         allPlatforms.Clear();
@@ -85,7 +85,6 @@ public class PlatformManager : MonoBehaviour
             //Debug.Log("Red Platform Set to Solid");
         }
     }
-
 
     public void HandleRespawn()
     {
