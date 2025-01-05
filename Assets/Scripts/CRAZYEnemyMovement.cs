@@ -3,19 +3,19 @@ using System.Collections;
 
 public class CRAZYEnemyMovement : MonoBehaviour
 {
-    public float speed = 4f;            // Speed of the enemy movement
-    public float moveDistance = 26f;    // Distance to move forward and backward
-    public float chaseSpeed = 6f;       // Speed when chasing the player
-    public float detectionRange = 5f;   // Range within which the enemy starts chasing the player
-    public Transform player;            // Reference to the player
-    public Animator animator;           // Reference to the Animator component
-    public GameObject linkedSurface;    // Optional surface to check for contact
+    public float speed = 4f;
+    public float moveDistance = 26f;
+    public float chaseSpeed = 6f;
+    public float detectionRange = 5f;
+    public Transform player;
+    public Animator animator; // Enemy animation
+    public GameObject linkedSurface;
     
-    private Vector3 startPos;           // Initial position of the enemy
-    private bool movingForward = true;  // To track movement direction
-    private bool isChasing = false;     // Whether the enemy is currently chasing the player
-    public bool hasTeleported = false;  // Disables movement if enemy teleports
-    private Rigidbody rb;              // Reference to the Rigidbody component
+    private Vector3 startPos;
+    private bool movingForward = true;
+    private bool isChasing = false;
+    public bool hasTeleported = false;
+    private Rigidbody rb;
     private bool isInContactWithSurface = false;
 
     void Start()
@@ -52,7 +52,7 @@ public class CRAZYEnemyMovement : MonoBehaviour
 
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            // Check if the player is within the detection range
+            // Check if the player is within the detection range - only in hard mode
             if (distanceToPlayer <= detectionRange && SettingsManager.gameMode == 2)
             {
                 isChasing = true;
