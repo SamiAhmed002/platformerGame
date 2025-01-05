@@ -16,11 +16,11 @@ public class CollectibleHover : MonoBehaviour
 
     private void Update()
     {
-        // Hover
+        // Make coin hover up and down
         float newY = startPosition.y + Mathf.Sin(Time.time * speed) * height;
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
 
-        // Rotation
+        // Gradually rotate coin
         transform.Rotate(Vector3.up * rotation * Time.deltaTime, Space.World);
     }
 }

@@ -6,19 +6,19 @@ using UnityEngine.EventSystems;
 
 public class ButtonHighlighting : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public TMP_Text buttonText; // Reference to the TextMeshPro component
+    public TMP_Text buttonText; // Level text
     public int id;
 
-    // Called when the mouse pointer enters the button
     public void OnPointerEnter(PointerEventData eventData)
     {
+        // Bold text when button is highlighted - only if level is unlocked
         if (buttonText != null && SettingsManager.progress >= this.id)
         {
             buttonText.fontStyle = FontStyles.Bold;
         }
     }
 
-    // Called when the mouse pointer exits the button
+    // Unbold text when button no longer highlighted
     public void OnPointerExit(PointerEventData eventData)
     {
         if (buttonText != null)

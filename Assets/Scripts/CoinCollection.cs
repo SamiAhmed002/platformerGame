@@ -10,13 +10,14 @@ public class CoinCollection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the colliding object is the player
+        // Check if it's the player touching the trigger
         if (other.gameObject == player)
         {
-                SpawnLocation.coins += 1;
-                coinCounterText.text = "x" + SpawnLocation.coins;
+            // Update coin count
+            SpawnLocation.coins += 1;
+            coinCounterText.text = "x" + SpawnLocation.coins;
 
-            // Destroy the coin object
+            // Destroy coin
             Destroy(gameObject);
         }
     }

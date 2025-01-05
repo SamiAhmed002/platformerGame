@@ -84,6 +84,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadTutorial()
     {
+        SpawnLocation.spawnPosition = new Vector3(130, 8, 0);
         if (!TutorialManager.hasPlayedCutScene)
         {
             // Set the flag to indicate the cut-scene is being played

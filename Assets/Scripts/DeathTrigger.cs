@@ -21,7 +21,7 @@ public class DeathTrigger : MonoBehaviour
     // Add both collision and trigger detection
     private void OnCollisionEnter(Collision other)
     {
-        // Check if the colliding object is the player
+        // Check if the colliding object is the player - reload scene if so
         if (other.gameObject.CompareTag("Player"))
         {
             Scene currentScene = SceneManager.GetActiveScene();
@@ -31,7 +31,7 @@ public class DeathTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the colliding object is the player
+        // Check if the colliding object is the player - reload scene if so
         if (other.CompareTag("Player"))
         {
             Scene currentScene = SceneManager.GetActiveScene();

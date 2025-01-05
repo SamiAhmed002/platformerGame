@@ -4,8 +4,8 @@ public class DoorController : MonoBehaviour
 {
     public Transform door;           // Reference to the moving door (visual part)
     public float openHeight = 5f;    // How far the door moves upward to open
-    public float doorSpeed = 2f;     // Speed of the door movement
-    private Vector3 initialPosition; // The initial position of the door
+    public float doorSpeed = 2f;
+    private Vector3 initialPosition;
     private bool doorLocked = false; // Prevents reopening once locked
     private bool isMoving = false;   // Prevents multiple coroutines
 
@@ -17,6 +17,7 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Open door for player when trigger touched
         if (!doorLocked && other.CompareTag("Player"))
         {
             Debug.Log("Player entered: Opening door...");
@@ -26,6 +27,7 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // Close door behind player when they leave trigger
         if (!doorLocked && other.CompareTag("Player"))
         {
             Debug.Log("Player exited: Closing door...");
