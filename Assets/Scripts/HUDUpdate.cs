@@ -11,6 +11,7 @@ public class HUDUpdate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Update coin counter in HUD
         coinText.text = "x" + SpawnLocation.coins;
     }
 
