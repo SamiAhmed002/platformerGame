@@ -8,8 +8,7 @@ public static class SpawnLocation {
     public static Vector3 spawnPosition = new Vector3(130, 8, 0); 
     public static int coins = 0;
     public static bool hasLaser = false;
-    public static bool hasLevitation = true; // uncomment when done testing
-    //public static bool hasLevitation = true; // For DEBUGGING 
+    public static bool hasLevitation = false;
 }
 
 public static class SettingsManager {
@@ -85,6 +84,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadTutorial()
     {
+        SpawnLocation.spawnPosition = new Vector3(130, 8, 0);
         if (!TutorialManager.hasPlayedCutScene)
         {
             // Set the flag to indicate the cut-scene is being played
