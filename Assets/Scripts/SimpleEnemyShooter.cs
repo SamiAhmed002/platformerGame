@@ -19,7 +19,7 @@
         private void Start()
         {
             target = GameObject.FindGameObjectWithTag("Player")?.transform;
-            fireRate = 4f / (SettingsManager.gameMode + 1);
+            fireRate = 4f / ( 3 - SettingsManager.gameMode);
             
             if (shootPoint == null) {
                 shootPoint = transform;

@@ -8,7 +8,8 @@ public static class SpawnLocation {
     public static Vector3 spawnPosition = new Vector3(130, 8, 0); 
     public static int coins = 0;
     public static bool hasLaser = false;
-    public static bool hasLevitation = false;
+    public static bool hasLevitation = false; // uncomment when done testing
+    //public static bool hasLevitation = true; // For DEBUGGING 
 }
 
 public static class SettingsManager {

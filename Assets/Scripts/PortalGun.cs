@@ -135,7 +135,7 @@ public class PortalGun : MonoBehaviour
         if (Physics.Raycast(ray, out hit, levitationRange))
         {
             // Check for either Floating or RobotSphere tag
-            if (hit.collider.CompareTag("Floating") || hit.collider.CompareTag("RobotSphere"))
+            if (hit.collider.CompareTag("Floating") || hit.collider.CompareTag("FinalRobot"))
             {
                 levitatedObject = hit.collider.gameObject;
                 levitatedRigidbody = levitatedObject.GetComponent<Rigidbody>();

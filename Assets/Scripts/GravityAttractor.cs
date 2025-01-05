@@ -6,14 +6,14 @@ public class GravityAttractor : MonoBehaviour
     public float attractionRange = 10f;        // Range within which objects are attracted
     public float maintainDistance = 3f;        // Distance to maintain from the attractor
     public float attractionSpeed = 5f;         // Speed at which objects move towards attractor
-    
+
     [Header("Material Settings")]
     public Material defaultMaterial;           // Material when not attracting
     public Material attractingMaterial;        // Material when attracting objects
-    
+
     private MeshRenderer meshRenderer;
     private bool isAttracting = false;
-    
+
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -22,7 +22,7 @@ public class GravityAttractor : MonoBehaviour
             Debug.LogWarning("No MeshRenderer found on this object!");
             return;
         }
-        
+
         // Store the initial material if no default material is assigned
         if (defaultMaterial == null)
         {
@@ -34,53 +34,54 @@ public class GravityAttractor : MonoBehaviour
         meshRenderer.material = defaultMaterial;
         isAttracting = false;
     }
-    
+
     private void FixedUpdate()
     {
-        bool foundFloatingObject = false;
-        
+        bool foundFinalRobot = false;
+
         // Find all colliders within the attraction range
         Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, attractionRange);
-        
+
         foreach (Collider collider in nearbyColliders)
         {
-            // Check if the object has the "RobotSphere" tag
-            if (collider.CompareTag("RobotSphere"))
+            // Check if the object has the "FinalRobot" tag
+            if (collider.CompareTag("FinalRobot"))
             {
-                foundFloatingObject = true;
+                Debug.Log("Final robot detected by GravityAttractor.");
+                foundFinalRobot = true;
                 Rigidbody rb = collider.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    // Calculate direction and distance to the floating object
+                    // Calculate direction and distance to the final robot
                     Vector3 direction = transform.position - collider.transform.position;
                     float distance = direction.magnitude;
-                    
-                    // Only attract if the object is further than maintainDistance
-                    if (distance > maintainDistance)
+
+                    // Only attract if the robot is further than maintainDistance
+                    if (distance > maintainDistance + 0.1f) // Adding a small margin (0.1f)
                     {
-                        // Normalize direction and scale by attraction speed
                         Vector3 attractionForce = direction.normalized * attractionSpeed;
-                        
-                        // The closer to maintainDistance, the weaker the attraction
-                        float strengthMultiplier = (distance - maintainDistance) / attractionRange;
+                        float strengthMultiplier = Mathf.Clamp01((distance - maintainDistance) / attractionRange);
                         attractionForce *= strengthMultiplier;
-                        
-                        // Apply the force to the object
                         rb.velocity = attractionForce;
                     }
                     else
                     {
-                        // If too close, gently push away
                         rb.velocity = Vector3.zero;
+
+                        // Trigger the good ending when the robot is within maintainDistance
+                        Debug.Log("Final robot reached maintainDistance. Triggering good ending.");
+                        TriggerGoodEnding();
                     }
                 }
             }
         }
-        
+
         // Update material based on whether we're attracting objects
-        UpdateMaterial(foundFloatingObject);
+        UpdateMaterial(foundFinalRobot);
     }
-    
+
+
+
     private void UpdateMaterial(bool isAttractingObjects)
     {
         if (meshRenderer != null && attractingMaterial != null)
@@ -98,13 +99,19 @@ public class GravityAttractor : MonoBehaviour
         }
     }
 
-    // Optional: Visualize the attraction range in the editor
-    private void OnDrawGizmosSelected()
+    private void TriggerGoodEnding()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attractionRange);
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, maintainDistance);
+        // Find the TriggerRobotManager and trigger the good ending
+        Debug.Log("TriggerGoodEnding called in GravityAttractor.");
+        TriggerRobotManager triggerManager = FindObjectOfType<TriggerRobotManager>();
+        if (triggerManager != null)
+        {
+            triggerManager.TriggerGoodEnding(); // This will stop the countdown and load the good ending scene
+        }
+        else
+        {
+            Debug.LogWarning("TriggerRobotManager not found!");
+        }
     }
-} 
+
+}
