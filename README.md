@@ -28,6 +28,12 @@ git clone https://github.com/SamiAhmed002/platformerGame.git
 
 -Right click: place portal
 
+-Esc Key: Pause the game
+
+-E : Open Inventory
+
+-C : Interact with NPC
+
 
 Assets used by Everyone:
 ALL THESE ASSETS ARE FREE
