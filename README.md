@@ -16,7 +16,7 @@ git clone https://github.com/SamiAhmed002/platformerGame.git
 
 **Web-GL build**
 
--Alternatively, play the Web-GL build of the game on https://samiahmed002.github.io/platformerGame/
+-Alternatively, play the Web-GL build of the game on https://krishbains.itch.io/quantum-leap
 
 **Controls**
 
