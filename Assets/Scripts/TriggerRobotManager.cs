@@ -17,6 +17,10 @@ public class TriggerRobotManager : MonoBehaviour
     public string goodEndingScene = "GoodEndingCutscene";
     public string badEndingScene = "BadEndingCutscene";
 
+    [Header("Sound Settings")]
+    public AudioClip countdownSound; // Sound to play when countdown starts
+    private AudioSource audioSource; // AudioSource to play the sound
+
     private RobotDialogue robotDialogue; // Reference to the RobotDialogue script
     private bool isCountdownRunning = false;
     private bool hasGoodEndingTriggered = false;
@@ -37,6 +41,13 @@ public class TriggerRobotManager : MonoBehaviour
         if (countdownText != null)
         {
             countdownText.gameObject.SetActive(false); // Hide countdown text initially
+        }
+
+        // Get the AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource component is missing from the GameObject.");
         }
     }
 
@@ -84,6 +95,10 @@ public class TriggerRobotManager : MonoBehaviour
         if (!isCountdownRunning)
         {
             Debug.Log("Starting countdown...");
+            if (countdownSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(countdownSound); // Play sound when countdown starts
+            }
             StartCoroutine(CountdownCoroutine());
         }
     }
@@ -135,5 +150,4 @@ public class TriggerRobotManager : MonoBehaviour
             SceneManager.LoadScene(goodEndingScene);
         }
     }
-
 }

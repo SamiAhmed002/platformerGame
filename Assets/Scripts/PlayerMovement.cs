@@ -9,7 +9,13 @@ public class PlayerMovement : MonoBehaviour
     public Camera playerCamera;
     public Slider sensitivity;
 
-    // Script for controlling player movement, running, crouching, and looking around.
+    // Audio
+    public AudioSource movementAudioSource;  // AudioSource for movement sounds
+    public AudioClip walkSound;             // Audio clip for walking
+    public AudioClip runSound;              // Audio clip for running
+    public AudioClip jumpSound;             // Audio clip for jumping
+
+    // Player movement settings
     public float walkSpeed = 6f;          // Walking speed of the player.
     public float runSpeed = 12f;          // Running speed of the player.
     public float jumpPower = 7f;          // Force applied when jumping.
@@ -22,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private float rotationX = 0;                   // Tracks the vertical rotation angle for looking up/down.
     private CharacterController characterController; // Reference to the CharacterController component.
     private bool canMove = true;         // Flag to check if the player can move.
+    private bool isPlayingMovementSound = false;  // To track whether the movement sound is already playing
     public Vector3 spawnPosition;
 
     public bool slowPowerActive = false;
@@ -39,6 +46,13 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;  // Lock the mouse cursor to the center of the screen.
         Cursor.visible = false;                   // Hide the cursor while playing.
+
+        // Ensure AudioSource is properly configured
+        if (movementAudioSource == null)
+        {
+            movementAudioSource = gameObject.AddComponent<AudioSource>();
+            movementAudioSource.loop = true;
+        }
     }
 
     void Update()
@@ -60,10 +74,19 @@ public class PlayerMovement : MonoBehaviour
         // Calculate the overall movement direction using forward and right vectors.
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
+        // Play movement sound based on player input
+        HandleMovementSound(curSpeedX, curSpeedY, isRunning);
+
         // Jumping logic: If the player is grounded and presses the jump button (space), apply the jump power.
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpPower;
+
+            // Play the jump sound
+            if (jumpSound != null)
+            {
+                movementAudioSource.PlayOneShot(jumpSound);
+            }
         }
         else
         {
@@ -99,7 +122,31 @@ public class PlayerMovement : MonoBehaviour
 
         gravity = 10f / (slowPowerActive ? 0.5f : 1);
         jumpPower = 7f / (slowPowerActive ? 0.5f : 1);
+    }
 
+    void HandleMovementSound(float curSpeedX, float curSpeedY, bool isRunning)
+    {
+        bool isMoving = curSpeedX != 0 || curSpeedY != 0;
+
+        if (isMoving && characterController.isGrounded)
+        {
+            if (!isPlayingMovementSound)
+            {
+                movementAudioSource.clip = isRunning ? runSound : walkSound;
+                movementAudioSource.Play();
+                isPlayingMovementSound = true;
+            }
+            else if (movementAudioSource.clip != (isRunning ? runSound : walkSound))
+            {
+                movementAudioSource.clip = isRunning ? runSound : walkSound;
+                movementAudioSource.Play();
+            }
+        }
+        else if (isPlayingMovementSound)
+        {
+            movementAudioSource.Stop();
+            isPlayingMovementSound = false;
+        }
     }
 
     public void ApplyVerticalLift(float liftSpeed)
@@ -121,5 +168,4 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Spawn position set to " + spawnPosition);
         characterController.enabled = true;
     }
-
 }
