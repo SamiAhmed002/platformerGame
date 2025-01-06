@@ -272,7 +272,7 @@ public class PortalGun : MonoBehaviour
     {
         if (audioSource != null && portalPlacementSound != null)
         {
-            audioSource.PlayOneShot(portalPlacementSound);
+            audioSource.PlayOneShot(portalPlacementSound, SettingsManager.soundVolume);
         }
     }
 

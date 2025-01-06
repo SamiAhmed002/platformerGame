@@ -10,6 +10,7 @@ public class PauseGame : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject settingsMenu;
     public Slider sensitivitySlider;
+    public Slider SFXSlider;
     public GameObject inventory;
 
     void Start() {
@@ -27,6 +28,7 @@ public class PauseGame : MonoBehaviour
         inventory.SetActive(false);
 
         sensitivitySlider.value = SettingsManager.sensitivityValue;
+        SFXSlider.value = SettingsManager.soundVolume;
     }
 
     // Update is called once per frame
@@ -44,6 +46,7 @@ public class PauseGame : MonoBehaviour
             OpenInventory();
         }
         
+        SettingsManager.soundVolume = SFXSlider.value;
     }
 
     void Resume() {

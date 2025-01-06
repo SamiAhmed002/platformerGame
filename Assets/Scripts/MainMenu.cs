@@ -14,6 +14,7 @@ public static class SpawnLocation {
 
 public static class SettingsManager {
     public static float sensitivityValue = 5f;
+    public static float soundVolume = 1f;
     public static int gameMode = 0;
     public static int progress = 0; //increments by 1 per level unlocked, starting with 0 for tutorial
     //set progress to 2 to unlock all levels upon starting game
@@ -26,6 +27,7 @@ public class MainMenu : MonoBehaviour
     public GameObject levelMenu;
     public GameObject settingsMenu;
     public Slider sensitivity;
+    public Slider audio;
     public Toggle easyModeToggle;
     public Toggle mediumModeToggle;
     public Toggle hardModeToggle;
@@ -41,6 +43,8 @@ public class MainMenu : MonoBehaviour
         settingsMenu.SetActive(false);
         sensitivity.value = SettingsManager.sensitivityValue;
         sensitivity.onValueChanged.AddListener(OnSensitivityChanged);
+        audio.value = SettingsManager.soundVolume;
+        audio.onValueChanged.AddListener(OnVolumeChanged);
         
         //Easy/medium/hard toggles to only have 1 selected at a time
         UpdateToggles();
@@ -114,6 +118,11 @@ public class MainMenu : MonoBehaviour
     public void OnSensitivityChanged(float value)
     {
         SettingsManager.sensitivityValue = value;
+    }
+
+    public void OnVolumeChanged(float value)
+    {
+        SettingsManager.soundVolume = value;
     }
 
 
