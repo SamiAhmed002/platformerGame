@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class DoorController : MonoBehaviour
 {
     public Transform door;           // Reference to the moving door (visual part)

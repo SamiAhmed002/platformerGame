@@ -74,37 +74,50 @@ public class PortalGun : MonoBehaviour
         // Right-click to shoot a portal
         if (Input.GetMouseButtonDown(1))
         {
-            switch (InventorySelect.currentSelection.ID) {
-                case 1:
-                    ShootPortal();
-                    break;
-
-                case 2:
-                    laserActive = true;
-                    break;
-
-                case 3:
-                    levitateActive = true;
-                    break;
-
-                case 4:
-                    if (SpawnLocation.coins >= 5) {
-                        Slow();
-                        SpawnLocation.coins -= 5;
-                        coinCounterText.text = "x" + SpawnLocation.coins;
+            // Add null check for currentSelection
+            if (inventorySelect == null || InventorySelect.currentSelection == null)
+            {
+                Debug.LogWarning("Inventory selection is null, defaulting to portal gun");
+                ShootPortal();
+            }
+            else
+            {
+                switch (InventorySelect.currentSelection.ID) {
+                    case 1:
+                        ShootPortal();
                         break;
-                    }
-                    else {
-                        Debug.Log("Not enough coins");
-                    }
-                    break;
+
+                    case 2:
+                        laserActive = true;
+                        break;
+
+                    case 3:
+                        levitateActive = true;
+                        break;
+
+                    case 4:
+                        if (SpawnLocation.coins >= 5) {
+                            Slow();
+                            SpawnLocation.coins -= 5;
+                            coinCounterText.text = "x" + SpawnLocation.coins;
+                            break;
+                        }
+                        else {
+                            Debug.Log("Not enough coins");
+                        }
+                        break;
+                }
             }
         }
 
-        if (Input.GetMouseButtonUp(1) && InventorySelect.currentSelection.ID == 2)
+        if (Input.GetMouseButtonUp(1))
         {
-            laserActive = false;
-            Destroy(GameObject.Find("Laser Beam")); // Destroy the laser beam when button is released
+            if (inventorySelect != null && InventorySelect.currentSelection != null && 
+                InventorySelect.currentSelection.ID == 2)
+            {
+                laserActive = false;
+                Destroy(GameObject.Find("Laser Beam")); // Destroy the laser beam when button is released
+            }
         }
 
         if (laserActive) {
@@ -115,10 +128,14 @@ public class PortalGun : MonoBehaviour
         {
             TryStartLevitation();
 
-            if (Input.GetMouseButtonUp(1) && InventorySelect.currentSelection.ID == 3)
+            if (Input.GetMouseButtonUp(1))
             {
-                levitateActive = false;
-                StopLevitation();
+                if (inventorySelect != null && InventorySelect.currentSelection != null && 
+                    InventorySelect.currentSelection.ID == 3)
+                {
+                    levitateActive = false;
+                    StopLevitation();
+                }
             }
 
             // Update levitated object position while holding

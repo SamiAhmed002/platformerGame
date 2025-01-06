@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(AudioSource))]
 public class TriggerRobotManager : MonoBehaviour
 {
     public GameObject robot; // The robot to appear/disappear
