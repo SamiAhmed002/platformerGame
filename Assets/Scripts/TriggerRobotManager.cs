@@ -1,5 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TriggerRobotManager : MonoBehaviour
 {
@@ -7,7 +10,20 @@ public class TriggerRobotManager : MonoBehaviour
     public string[] dialogueLines; // Dialogue for this robot
     public float typewriterSpeed = 0.05f; // Speed for typewriter effect
 
+    [Header("Countdown Settings (Final Robot Only)")]
+    public bool isFinalRobot = false; // Check if this is the final robot
+    public TMP_Text countdownText; // UI Text for the countdown timer
+    public int countdownTime = 30; // Countdown time in seconds
+    public string goodEndingScene = "GoodEndingCutscene";
+    public string badEndingScene = "BadEndingCutscene";
+
+    [Header("Sound Settings")]
+    public AudioClip countdownSound; // Sound to play when countdown starts
+    private AudioSource audioSource; // AudioSource to play the sound
+
     private RobotDialogue robotDialogue; // Reference to the RobotDialogue script
+    private bool isCountdownRunning = false;
+    private bool hasGoodEndingTriggered = false;
 
     private void Start()
     {
@@ -19,6 +35,19 @@ public class TriggerRobotManager : MonoBehaviour
         {
             robotDialogue.dialogueLines = dialogueLines;
             robotDialogue.typewriterSpeed = typewriterSpeed;
+            robotDialogue.onDialogueFinished += OnDialogueFinished;
+        }
+
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(false); // Hide countdown text initially
+        }
+
+        // Get the AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource component is missing from the GameObject.");
         }
     }
 
@@ -51,6 +80,74 @@ public class TriggerRobotManager : MonoBehaviour
             }
         }
     }
+
+    private void OnDialogueFinished()
+    {
+        if (isFinalRobot)
+        {
+            Debug.Log("Final robot dialogue finished. Starting countdown.");
+            StartCountdown();
+        }
+    }
+
+    private void StartCountdown()
+    {
+        if (!isCountdownRunning)
+        {
+            Debug.Log("Starting countdown...");
+            if (countdownSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(countdownSound, SettingsManager.soundVolume); // Play sound when countdown starts
+            }
+            StartCoroutine(CountdownCoroutine());
+        }
+    }
+
+    private IEnumerator CountdownCoroutine()
+    {
+        isCountdownRunning = true;
+        int currentTime = countdownTime;
+
+        countdownText.gameObject.SetActive(true); // Show countdown text
+
+        while (currentTime > 0)
+        {
+            countdownText.text = $"00:{currentTime:D2}";
+            yield return new WaitForSeconds(1f);
+            currentTime--;
+
+            if (hasGoodEndingTriggered)
+            {
+                yield break; // Stop the countdown if the good ending is triggered
+            }
+        }
+
+        // Trigger bad ending if countdown reaches 0
+        if (!hasGoodEndingTriggered)
+        {
+            Debug.Log("Countdown finished. Triggering bad ending.");
+            SceneManager.LoadScene(badEndingScene);
+        }
+    }
+
+    public void TriggerGoodEnding()
+    {
+        if (!hasGoodEndingTriggered)
+        {
+            Debug.Log("Good ending triggered. Loading good ending scene...");
+            hasGoodEndingTriggered = true;
+
+            // Stop the countdown if it's running
+            if (isCountdownRunning)
+            {
+                Debug.Log("Stopping the countdown as good ending is triggered.");
+                StopAllCoroutines(); // Stop the countdown coroutine
+                countdownText.gameObject.SetActive(false); // Hide the countdown text
+                isCountdownRunning = false;
+            }
+
+            // Load the good ending scene
+            SceneManager.LoadScene(goodEndingScene);
+        }
+    }
 }
-
-

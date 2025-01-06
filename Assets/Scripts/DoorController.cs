@@ -9,10 +9,21 @@ public class DoorController : MonoBehaviour
     private bool doorLocked = false; // Prevents reopening once locked
     private bool isMoving = false;   // Prevents multiple coroutines
 
+    [Header("Sound Settings")]
+    public AudioClip doorOpenSound;  // Sound to play when the door opens
+    private AudioSource audioSource; // AudioSource to play the sound
+
     private void Start()
     {
         // Store the initial position of the door
         initialPosition = door.position;
+
+        // Get the AudioSource component attached to the door (or any other GameObject)
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource component is missing from the GameObject.");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,6 +50,17 @@ public class DoorController : MonoBehaviour
     {
         isMoving = true;
         Vector3 targetPosition = initialPosition + Vector3.up * openHeight;
+
+        if (doorOpenSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(doorOpenSound, SettingsManager.soundVolume);
+        }
+
+        // Play door open sound
+        if (doorOpenSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(doorOpenSound);
+        }
 
         // Smoothly open the door
         while (Vector3.Distance(door.position, targetPosition) > 0.01f)
@@ -68,4 +90,3 @@ public class DoorController : MonoBehaviour
         Debug.Log("Door closed and locked.");
     }
 }
-

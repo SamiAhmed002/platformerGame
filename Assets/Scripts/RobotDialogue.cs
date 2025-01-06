@@ -9,6 +9,9 @@ public class RobotDialogue : MonoBehaviour
     private bool isInteracting = false; // Prevent multiple interactions
     private Coroutine dialogueCoroutine; // Reference to the current dialogue coroutine
 
+    public delegate void DialogueFinishedHandler();
+    public event DialogueFinishedHandler onDialogueFinished; // Event to signal when dialogue is finished
+
     public void StartInteraction(TextMeshProUGUI subtitlesText, GameObject subtitlesContainer)
     {
         if (isInteracting)
@@ -18,11 +21,16 @@ public class RobotDialogue : MonoBehaviour
 
         if (subtitlesText == null || subtitlesContainer == null)
         {
+            Debug.LogError("SubtitlesText or SubtitlesContainer is not assigned!");
             return;
         }
 
+        Debug.Log("Starting interaction with robot."); // Add this line
+        isInteracting = true;
+        subtitlesContainer.SetActive(true);
         dialogueCoroutine = StartCoroutine(PlayDialogue(subtitlesText, subtitlesContainer));
     }
+
 
     public void StopDialogue()
     {
@@ -36,28 +44,24 @@ public class RobotDialogue : MonoBehaviour
 
     private IEnumerator PlayDialogue(TextMeshProUGUI subtitlesText, GameObject subtitlesContainer)
     {
-        isInteracting = true;
-        subtitlesContainer.SetActive(true);
-
         foreach (string line in dialogueLines)
         {
-            yield return StartCoroutine(TypeLine(line, subtitlesText));
+            subtitlesText.text = ""; // Clear text
+
+            foreach (char letter in line.ToCharArray())
+            {
+                subtitlesText.text += letter; // Add each letter
+                yield return new WaitForSeconds(typewriterSpeed); // Wait between letters
+            }
+
             yield return new WaitForSeconds(1f); // Delay between lines
         }
 
         subtitlesContainer.SetActive(false); // Hide subtitles after dialogue
         isInteracting = false;
-        FindObjectOfType<RobotInteraction>().EndInteraction();
+
+        Debug.Log("Dialogue finished. Invoking event."); // Add this line
+        onDialogueFinished?.Invoke(); // Notify that the dialogue has finished
     }
 
-    private IEnumerator TypeLine(string line, TextMeshProUGUI subtitlesText)
-    {
-        subtitlesText.text = ""; // Clear text
-
-        foreach (char letter in line.ToCharArray())
-        {
-            subtitlesText.text += letter; // Add each letter
-            yield return new WaitForSeconds(typewriterSpeed); // Wait between letters
-        }
-    }
 }

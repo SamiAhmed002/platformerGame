@@ -27,13 +27,12 @@ public class RobotInteraction : MonoBehaviour
         Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, interactionRange))
+        if (Physics.Raycast(ray, out hit, interactionRange, LayerMask.GetMask("InteractableRobot")))
         {
-            // Check if the hit object has a RobotDialogue component
-            RobotDialogue robotDialogue = hit.collider.GetComponent<RobotDialogue>();
-            if (robotDialogue != null)
+            // Check if the hit object is a regular robot or the final robot by tag
+            if (hit.collider.CompareTag("FinalRobot"))
             {
-                // Show interaction message
+                // Interaction logic for the final robot
                 interactionText.text = $"Press {interactionKey} to interact";
                 interactionMessageContainer.SetActive(true);
 
@@ -41,13 +40,25 @@ public class RobotInteraction : MonoBehaviour
                 {
                     interactionMessageContainer.SetActive(false); // Hide the interaction message
                     isInteracting = true; // Set interaction flag
-                    robotDialogue.StartInteraction(subtitlesText, subtitlesContainer);
+                    hit.collider.GetComponent<RobotDialogue>().StartInteraction(subtitlesText, subtitlesContainer);
                 }
             }
             else
             {
-                // Hide interaction message if not hovering over the robot
-                interactionMessageContainer.SetActive(false);
+                // Interaction logic for regular robots
+                RobotDialogue robotDialogue = hit.collider.GetComponent<RobotDialogue>();
+                if (robotDialogue != null)
+                {
+                    interactionText.text = $"Press {interactionKey} to interact";
+                    interactionMessageContainer.SetActive(true);
+
+                    if (Input.GetKeyDown(interactionKey))
+                    {
+                        interactionMessageContainer.SetActive(false); // Hide the interaction message
+                        isInteracting = true; // Set interaction flag
+                        robotDialogue.StartInteraction(subtitlesText, subtitlesContainer);
+                    }
+                }
             }
         }
         else
@@ -63,8 +74,3 @@ public class RobotInteraction : MonoBehaviour
         isInteracting = false;
     }
 }
-
-
-
-
-

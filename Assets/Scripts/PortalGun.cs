@@ -9,7 +9,7 @@ public class PortalGun : MonoBehaviour
     public GameObject portalPrefabB;  // Prefab for Portal B
     public Camera playerCamera;       // Reference to player's camera
     public float maxDistance = 500f;  // Maximum range of portal shooting
-    
+
     [Header("Levitation Settings")]
     public float levitationDistance = 3f;    // Default distance for regular objects
     public float robotSphereLevitationDistance = 6f; // Distance for RobotSphere objects
@@ -46,6 +46,10 @@ public class PortalGun : MonoBehaviour
 
     public LayerMask portalPlacementLayer;
 
+    [Header("Audio Settings")]
+    public AudioClip portalPlacementSound; // Sound to play when a portal is placed
+    private AudioSource audioSource;      // AudioSource to play sounds
+
     void Start()
     {
         particles.Stop();
@@ -55,6 +59,13 @@ public class PortalGun : MonoBehaviour
         {
             // If the collider is on the parent object
             playerCollider = GetComponentInParent<Collider>();
+        }
+
+        // Initialize AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -135,7 +146,7 @@ public class PortalGun : MonoBehaviour
         if (Physics.Raycast(ray, out hit, levitationRange))
         {
             // Check for either Floating or RobotSphere tag
-            if (hit.collider.CompareTag("Floating") || hit.collider.CompareTag("RobotSphere"))
+            if (hit.collider.CompareTag("Floating") || hit.collider.CompareTag("FinalRobot"))
             {
                 levitatedObject = hit.collider.gameObject;
                 levitatedRigidbody = levitatedObject.GetComponent<Rigidbody>();
@@ -233,6 +244,9 @@ public class PortalGun : MonoBehaviour
                     portalA = Instantiate(portalPrefabA, portalPosition, Quaternion.LookRotation(hit.normal));
                     platformForPortalA = hitPlatform; // Associate Portal A with its platform
                     Debug.Log("Portal A placed at: " + hit.point);
+                    
+                    // Play portal placement sound
+                    PlayPortalPlacementSound();
                 }
                 // Place the second portal (Portal B) if Portal A exists
                 else if (portalB == null)
@@ -246,8 +260,19 @@ public class PortalGun : MonoBehaviour
                     portalB.GetComponent<Portal>().linkedPortal = portalA;
 
                     Debug.Log("Portal B placed at: " + hit.point);
+                    
+                    // Play portal placement sound
+                    PlayPortalPlacementSound();
                 }
             }
+        }
+    }
+
+    void PlayPortalPlacementSound()
+    {
+        if (audioSource != null && portalPlacementSound != null)
+        {
+            audioSource.PlayOneShot(portalPlacementSound, SettingsManager.soundVolume);
         }
     }
 

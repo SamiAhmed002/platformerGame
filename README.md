@@ -27,3 +27,17 @@ git clone https://github.com/SamiAhmed002/platformerGame.git
 -Shift: sprint
 
 -Right click: place portal
+
+
+Assets used by Krish:
+ALL THESE ASSETS ARE FREE
+https://assetstore.unity.com/packages/vfx/particles/spells/vfx-graph-chi-spiral-288049
+https://assetstore.unity.com/packages/3d/characters/creatures/ghost-character-free-267003
+https://assetstore.unity.com/packages/3d/props/low-poly-objects-pack-241890
+https://assetstore.unity.com/packages/2d/textures-materials/sky/nebula-skyboxes-219924
+https://assetstore.unity.com/packages/3d/environments/speedtutor-tutorial-level-free-159460
+https://assetstore.unity.com/packages/3d/characters/robots/robot-sphere-136226
+https://assetstore.unity.com/packages/vfx/particles/fire-explosions/free-fire-vfx-urp-266226
+https://assetstore.unity.com/packages/audio/music/cyberware-2-game-music-pack-253968
+
+ALSO USED GIT LFS FOR NEBULA SKYBOX
