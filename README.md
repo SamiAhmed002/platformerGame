@@ -29,7 +29,7 @@ git clone https://github.com/SamiAhmed002/platformerGame.git
 -Right click: place portal
 
 
-Assets used by Krish:
+Assets used by Everyone:
 ALL THESE ASSETS ARE FREE
 https://assetstore.unity.com/packages/vfx/particles/spells/vfx-graph-chi-spiral-288049
 https://assetstore.unity.com/packages/3d/characters/creatures/ghost-character-free-267003
@@ -39,5 +39,19 @@ https://assetstore.unity.com/packages/3d/environments/speedtutor-tutorial-level-
 https://assetstore.unity.com/packages/3d/characters/robots/robot-sphere-136226
 https://assetstore.unity.com/packages/vfx/particles/fire-explosions/free-fire-vfx-urp-266226
 https://assetstore.unity.com/packages/audio/music/cyberware-2-game-music-pack-253968
+
+https://freesound.org/people/Erokia/sounds/427396/ - gun
+https://freesound.org/people/FusionWolf3740/sounds/568876/  - explosion
+https://freesound.org/people/MuzakPlz/sounds/626908/ - countdown
+https://freesound.org/people/Radio_fragola_gorizia/sounds/399831/. - gate opening
+https://freesound.org/people/alegemaate/sounds/364690/. - jump sound
+https://freesound.org/people/qubodup/sounds/216570/ - running sound
+https://freesound.org/people/benzix2/sounds/417291/. - walking sound
+
+https://assetstore.unity.com/packages/3d/environments/sci-fi/sci-fi-styled-modular-pack-82913
+https://assetstore.unity.com/packages/vfx/particles/free-quick-effects-vol-1-304424
+https://assetstore.unity.com/packages/tools/particles-effects/true-explosions-21893
+https://assetstore.unity.com/packages/3d/environments/planets-of-the-solar-system-3d-90219
+
 
 ALSO USED GIT LFS FOR NEBULA SKYBOX
