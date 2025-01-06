@@ -9,6 +9,7 @@ public static class SpawnLocation {
     public static int coins = 0;
     public static bool hasLaser = false;
     public static bool hasLevitation = false;
+    //public static bool hasLevitation = true; //DEBUGGING
 }
 
 public static class SettingsManager {
