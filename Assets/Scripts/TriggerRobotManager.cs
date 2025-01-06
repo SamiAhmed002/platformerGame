@@ -43,11 +43,15 @@ public class TriggerRobotManager : MonoBehaviour
             countdownText.gameObject.SetActive(false); // Hide countdown text initially
         }
 
-        // Get the AudioSource component
+        // Get or Add the AudioSource component
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
-            Debug.LogError("AudioSource component is missing from the GameObject.");
+            audioSource = gameObject.AddComponent<AudioSource>();
+            // Set default AudioSource properties
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 1f; // Make it fully 3D sound
+            audioSource.volume = 1f;
         }
     }
 
@@ -97,7 +101,7 @@ public class TriggerRobotManager : MonoBehaviour
             Debug.Log("Starting countdown...");
             if (countdownSound != null && audioSource != null)
             {
-                audioSource.PlayOneShot(countdownSound, SettingsManager.soundVolume); // Play sound when countdown starts
+                audioSource.PlayOneShot(countdownSound); // Play sound when countdown starts
             }
             StartCoroutine(CountdownCoroutine());
         }

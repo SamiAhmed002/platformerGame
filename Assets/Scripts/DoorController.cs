@@ -18,11 +18,15 @@ public class DoorController : MonoBehaviour
         // Store the initial position of the door
         initialPosition = door.position;
 
-        // Get the AudioSource component attached to the door (or any other GameObject)
+        // Get or Add the AudioSource component
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
-            Debug.LogError("AudioSource component is missing from the GameObject.");
+            audioSource = gameObject.AddComponent<AudioSource>();
+            // Set default AudioSource properties
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 1f; // Make it fully 3D sound
+            audioSource.volume = 1f;
         }
     }
 
@@ -50,11 +54,6 @@ public class DoorController : MonoBehaviour
     {
         isMoving = true;
         Vector3 targetPosition = initialPosition + Vector3.up * openHeight;
-
-        if (doorOpenSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(doorOpenSound, SettingsManager.soundVolume);
-        }
 
         // Play door open sound
         if (doorOpenSound != null && audioSource != null)
